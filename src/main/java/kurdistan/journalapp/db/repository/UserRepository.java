@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserDb, Long> {
-    // Här kan du lägga till anpassade frågor om det behövs
+    UserDb findUserDbByUsername (String userName);
 }
 
