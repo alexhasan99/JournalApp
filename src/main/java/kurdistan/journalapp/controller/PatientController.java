@@ -20,7 +20,7 @@ public class PatientController {
         return ResponseEntity.ok(patient);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public ResponseEntity<Patient> createPatient(@RequestBody Patient patientDTO) {
         System.out.println("Received request to create patient: " + patientDTO.toString());
 
