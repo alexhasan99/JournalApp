@@ -27,8 +27,8 @@ public class PatientServiceImp implements IPatientService {
 
     @Override
     public Patient createPatient(Patient patient) {
-        UserDb u = userRepository.save(UserDb.FromUser(patient.getUser()));
-        patient.getUser().setId(u.getId());
+        UserDb u = userRepository.save(UserDb.FromUser(patient.getMyUserDetails()));
+        patient.getMyUserDetails().setId(u.getId());
         Patient p = Patient.FromPatientDb(patientRepository.save(PatientDb.FromPatient(patient)));
         return p;
     }

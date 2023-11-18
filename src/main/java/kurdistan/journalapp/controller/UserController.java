@@ -1,10 +1,9 @@
 package kurdistan.journalapp.controller;
 
-import kurdistan.journalapp.model.User;
+import kurdistan.journalapp.model.MyUserDetails;
 import kurdistan.journalapp.service.UserService;
 import kurdistan.journalapp.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/users")
 public class UserController {
 
-    @Autowired
-    private IUserService userService;
+   @Autowired
+    private UserService userService;
 
-    @PostMapping("/create")
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User createdUser = userService.createUser(user);
-        return ResponseEntity.ok(createdUser);
+   /* @PostMapping("/create")
+    public ResponseEntity<MyUserDetails> createUser(@RequestBody MyUserDetails myUserDetails) {
+        MyUserDetails createdMyUserDetails = userService.createUser(myUserDetails);
+        return ResponseEntity.ok(createdMyUserDetails);
     }
 
     @PostMapping("/login")
@@ -43,6 +42,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("username/{username}")
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
+        User user = userService.getUserByUserName(username);
+
+        if (user != null) {
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User updatedUser) {
         User updated = userService.updateUser(id, updatedUser);
@@ -52,5 +62,5 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }
+    }*/
 }
