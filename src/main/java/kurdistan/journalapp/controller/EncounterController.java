@@ -1,7 +1,6 @@
 package kurdistan.journalapp.controller;
 
 
-import kurdistan.journalapp.model.Condition;
 import kurdistan.journalapp.model.Encounter;
 import kurdistan.journalapp.service.interfaces.IEncounterService;
 import org.springframework.beans.factory.annotation.Autowired;
