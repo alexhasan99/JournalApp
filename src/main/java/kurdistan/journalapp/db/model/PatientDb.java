@@ -38,7 +38,7 @@ public class PatientDb {
         d.setLastName(p.getLastName());
         d.setEmail(p.getEmail());
         d.setGender(p.getGender());
-        d.setUserDb(UserDb.FromUser(p.getUser()));
+        d.setUserDb(UserDb.FromUser(p.getMyUserDetails()));
         return d;
     }
 }

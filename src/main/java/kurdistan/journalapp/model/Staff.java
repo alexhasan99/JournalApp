@@ -15,18 +15,18 @@ public class Staff extends Person {
 
     private String staffType;
 
-    private User user;
+    private MyUserDetails myUserDetails;
 
     public Staff(Long id, String firstName, String lastName,
-                 String email, String gender, String staffType, User user) {
+                 String email, String gender, String staffType, MyUserDetails myUserDetails) {
         super(id, firstName, lastName, email, gender);
         this.staffType = staffType;
-        this.user = user;
+        this.myUserDetails = myUserDetails;
     }
 
     public static Staff FromStaffDb(StaffDb d){
         return new Staff(d.getId(), d.getFirstName(),
-                d.getLastName(), d.getEmail(), d.getGender(), d.getStaffType(), User.FromUserDb(d.getUserDb()));
+                d.getLastName(), d.getEmail(), d.getGender(), d.getStaffType(), new MyUserDetails(d.getUserDb()));
     }
 
     public List<String> getChangedAttributes(Staff other) {
