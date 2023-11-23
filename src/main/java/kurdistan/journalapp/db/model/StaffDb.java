@@ -42,7 +42,7 @@ public class StaffDb {
         d.setEmail(p.getEmail());
         d.setGender(p.getGender());
         d.setStaffType(p.getStaffType());
-        d.setUserDb(UserDb.FromUser(p.getMyUserDetails()));
+        d.setUserDb(UserDb.FromUser(p.getUser()));
         return d;
     }
 }

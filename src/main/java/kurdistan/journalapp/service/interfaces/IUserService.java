@@ -1,7 +1,8 @@
 package kurdistan.journalapp.service.interfaces;
 
-import org.springframework.security.core.userdetails.UserDetails;
+
+import kurdistan.journalapp.model.User;
 
 public interface IUserService{
-    UserDetails loadUserByUsername(String username);
+    User loadUserByUsername(String username);
 }
