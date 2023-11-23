@@ -1,14 +1,14 @@
-package kurdistan.journalapp.service;
+package src.main.java.kurdistan.journalapp.service;
 
-import kurdistan.journalapp.db.model.ConditionDb;
-import kurdistan.journalapp.db.model.EncounterDb;
-import kurdistan.journalapp.db.model.PatientDb;
-import kurdistan.journalapp.db.model.StaffDb;
-import kurdistan.journalapp.db.repository.EncounterRepository;
-import kurdistan.journalapp.model.Condition;
-import kurdistan.journalapp.model.Encounter;
-import kurdistan.journalapp.service.interfaces.IConditionService;
-import kurdistan.journalapp.service.interfaces.IEncounterService;
+import src.main.java.kurdistan.journalapp.db.model.ConditionDb;
+import src.main.java.kurdistan.journalapp.db.model.EncounterDb;
+import src.main.java.kurdistan.journalapp.db.model.PatientDb;
+import src.main.java.kurdistan.journalapp.db.model.StaffDb;
+import src.main.java.kurdistan.journalapp.db.repository.EncounterRepository;
+import src.main.java.kurdistan.journalapp.model.Condition;
+import src.main.java.kurdistan.journalapp.model.Encounter;
+import src.main.java.kurdistan.journalapp.service.interfaces.IConditionService;
+import src.main.java.kurdistan.journalapp.service.interfaces.IEncounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

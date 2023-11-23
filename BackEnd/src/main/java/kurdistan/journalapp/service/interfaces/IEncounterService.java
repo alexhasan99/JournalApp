@@ -1,6 +1,6 @@
-package kurdistan.journalapp.service.interfaces;
+package src.main.java.kurdistan.journalapp.service.interfaces;
 
-import kurdistan.journalapp.model.Encounter;
+import src.main.java.kurdistan.journalapp.model.Encounter;
 
 import java.util.List;
 

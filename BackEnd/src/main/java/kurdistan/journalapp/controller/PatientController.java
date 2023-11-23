@@ -1,7 +1,7 @@
 package src.main.java.kurdistan.journalapp.controller;
 
-import kurdistan.journalapp.model.Patient;
-import kurdistan.journalapp.service.interfaces.IPatientService;
+import src.main.java.kurdistan.journalapp.model.Patient;
+import src.main.java.kurdistan.journalapp.service.interfaces.IPatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

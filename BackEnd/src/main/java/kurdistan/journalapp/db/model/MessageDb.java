@@ -1,4 +1,4 @@
-package kurdistan.journalapp.db.model;
+package src.main.java.kurdistan.journalapp.db.model;
 
 
 import jakarta.persistence.*;

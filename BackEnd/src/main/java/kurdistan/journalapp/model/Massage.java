@@ -1,4 +1,4 @@
-package kurdistan.journalapp.model;
+package src.main.java.kurdistan.journalapp.model;
 
 import lombok.Getter;
 

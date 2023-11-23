@@ -1,6 +1,6 @@
-package kurdistan.journalapp.db.repository;
+package src.main.java.kurdistan.journalapp.db.repository;
 
-import kurdistan.journalapp.db.model.UserDb;
+import src.main.java.kurdistan.journalapp.db.model.UserDb;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

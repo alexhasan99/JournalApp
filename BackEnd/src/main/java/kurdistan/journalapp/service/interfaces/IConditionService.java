@@ -1,7 +1,7 @@
-package kurdistan.journalapp.service.interfaces;
+package src.main.java.kurdistan.journalapp.service.interfaces;
 
-import kurdistan.journalapp.model.Condition;
-import kurdistan.journalapp.model.Patient;
+import src.main.java.kurdistan.journalapp.model.Condition;
+import src.main.java.kurdistan.journalapp.model.Patient;
 
 import java.util.List;
 

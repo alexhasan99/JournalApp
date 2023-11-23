@@ -1,13 +1,13 @@
-package kurdistan.journalapp.service;
+package src.main.java.kurdistan.journalapp.service;
 
-import kurdistan.journalapp.db.model.PatientDb;
-import kurdistan.journalapp.db.model.UserDb;
-import kurdistan.journalapp.db.repository.PatientRepository;
-import kurdistan.journalapp.db.repository.UserRepository;
-import kurdistan.journalapp.model.Patient;
+import src.main.java.kurdistan.journalapp.db.model.PatientDb;
+import src.main.java.kurdistan.journalapp.db.model.UserDb;
+import src.main.java.kurdistan.journalapp.db.repository.PatientRepository;
+import src.main.java.kurdistan.journalapp.db.repository.UserRepository;
+import src.main.java.kurdistan.journalapp.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import kurdistan.journalapp.service.interfaces.IPatientService;
+import src.main.java.kurdistan.journalapp.service.interfaces.IPatientService;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

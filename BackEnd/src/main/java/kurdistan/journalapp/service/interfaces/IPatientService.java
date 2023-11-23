@@ -1,6 +1,6 @@
-package kurdistan.journalapp.service.interfaces;
+package src.main.java.kurdistan.journalapp.service.interfaces;
 
-import kurdistan.journalapp.model.Patient;
+import src.main.java.kurdistan.journalapp.model.Patient;
 
 public interface IPatientService {
     Patient getPatientById(Long id);

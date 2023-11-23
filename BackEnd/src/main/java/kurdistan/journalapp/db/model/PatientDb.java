@@ -1,6 +1,6 @@
-package kurdistan.journalapp.db.model;
+package src.main.java.kurdistan.journalapp.db.model;
 
-import kurdistan.journalapp.model.Patient;
+import src.main.java.kurdistan.journalapp.model.Patient;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.*;
