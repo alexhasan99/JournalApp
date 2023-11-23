@@ -1,9 +1,9 @@
 package kurdistan.journalapp.controller;
 
-import kurdistan.journalapp.model.MyUserDetails;
+import kurdistan.journalapp.model.User;
 import kurdistan.journalapp.service.UserService;
-import kurdistan.journalapp.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +14,9 @@ public class UserController {
    @Autowired
     private UserService userService;
 
-   /* @PostMapping("/create")
-    public ResponseEntity<MyUserDetails> createUser(@RequestBody MyUserDetails myUserDetails) {
-        MyUserDetails createdMyUserDetails = userService.createUser(myUserDetails);
+   @PostMapping("/create")
+    public ResponseEntity<User> createUser(@RequestBody User myUserDetails) {
+        User createdMyUserDetails = userService.createUser(myUserDetails);
         return ResponseEntity.ok(createdMyUserDetails);
     }
 
@@ -62,5 +62,5 @@ public class UserController {
         } else {
             return ResponseEntity.notFound().build();
         }
-    }*/
+    }
 }

@@ -11,18 +11,18 @@ import java.util.Objects;
 public class Patient extends Person{
 
     @Getter @Setter
-    private MyUserDetails myUserDetails;
+    private User user;
 
     public Patient(Long id, String firstName, String lastName,
-                   String email, String gender, MyUserDetails myUserDetails) {
+                   String email, String gender, User user) {
         super(id, firstName, lastName, email, gender);
-        this.myUserDetails = myUserDetails;
+        this.user = user;
     }
 
 
     public static Patient FromPatientDb(PatientDb p){
         return new Patient(p.getId(), p.getFirstName(), p.getLastName(), p.getEmail(),
-                p.getGender(), new MyUserDetails(p.getUserDb()));
+                p.getGender(), new User(p.getUserDb()));
     }
 
     public List<String> getChangedAttributes(Patient other) {

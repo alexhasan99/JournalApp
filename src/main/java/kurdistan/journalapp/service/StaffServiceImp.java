@@ -31,8 +31,8 @@ public class StaffServiceImp implements IStaffService {
 
     @Override
     public Staff createStaff(Staff staff) {
-        UserDb u = userRepository.save(UserDb.FromUser(staff.getMyUserDetails()));
-        staff.getMyUserDetails().setId(u.getId());
+        UserDb u = userRepository.save(UserDb.FromUser(staff.getUser()));
+        staff.getUser().setId(u.getId());
         Staff d = Staff.FromStaffDb(staffRepository.save(StaffDb.FromStaff(staff)));
         return d;
     }
