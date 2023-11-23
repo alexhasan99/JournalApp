@@ -1,4 +1,4 @@
-package kurdistan.journalapp.controller;
+package src.main.java.kurdistan.journalapp.controller;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
