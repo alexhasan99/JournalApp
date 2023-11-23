@@ -1,4 +1,4 @@
-package src.main.java.kurdistan.journalapp;
+package kurdistan.journalapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

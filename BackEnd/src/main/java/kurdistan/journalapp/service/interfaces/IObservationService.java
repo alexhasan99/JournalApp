@@ -1,6 +1,6 @@
-package src.main.java.kurdistan.journalapp.service.interfaces;
+package kurdistan.journalapp.service.interfaces;
 
-import src.main.java.kurdistan.journalapp.model.Observation;
+import kurdistan.journalapp.model.Observation;
 
 import java.util.List;
 

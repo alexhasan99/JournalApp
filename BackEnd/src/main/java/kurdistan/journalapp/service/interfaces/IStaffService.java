@@ -1,7 +1,7 @@
-package src.main.java.kurdistan.journalapp.service.interfaces;
+package kurdistan.journalapp.service.interfaces;
 
 
-import src.main.java.kurdistan.journalapp.model.Staff;
+import kurdistan.journalapp.model.Staff;
 
 import java.util.List;
 

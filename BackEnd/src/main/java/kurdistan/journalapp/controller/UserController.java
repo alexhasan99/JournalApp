@@ -1,7 +1,7 @@
-package src.main.java.kurdistan.journalapp.controller;
+package kurdistan.journalapp.controller;
 
-import src.main.java.kurdistan.journalapp.model.User;
-import src.main.java.kurdistan.journalapp.service.UserService;
+import kurdistan.journalapp.model.User;
+import kurdistan.journalapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -1,9 +1,9 @@
-package src.main.java.kurdistan.journalapp.controller;
+package kurdistan.journalapp.controller;
 
 
-import src.main.java.kurdistan.journalapp.model.Condition;
-import src.main.java.kurdistan.journalapp.model.Staff;
-import src.main.java.kurdistan.journalapp.service.interfaces.IConditionService;
+import kurdistan.journalapp.model.Condition;
+import kurdistan.journalapp.model.Staff;
+import kurdistan.journalapp.service.interfaces.IConditionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

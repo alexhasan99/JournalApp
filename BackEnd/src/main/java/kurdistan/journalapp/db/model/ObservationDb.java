@@ -1,8 +1,8 @@
-package src.main.java.kurdistan.journalapp.db.model;
+package kurdistan.journalapp.db.model;
 
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
-import src.main.java.kurdistan.journalapp.model.Observation;
+import kurdistan.journalapp.model.Observation;
 import lombok.Getter;
 import lombok.Setter;
 

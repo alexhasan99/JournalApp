@@ -1,11 +1,11 @@
-package src.main.java.kurdistan.journalapp.service;
+package kurdistan.journalapp.service;
 
-import src.main.java.kurdistan.journalapp.db.model.StaffDb;
-import src.main.java.kurdistan.journalapp.db.model.UserDb;
-import src.main.java.kurdistan.journalapp.db.repository.StaffRepository;
-import src.main.java.kurdistan.journalapp.db.repository.UserRepository;
-import src.main.java.kurdistan.journalapp.service.interfaces.IStaffService;
-import src.main.java.kurdistan.journalapp.model.Staff;
+import kurdistan.journalapp.db.model.StaffDb;
+import kurdistan.journalapp.db.model.UserDb;
+import kurdistan.journalapp.db.repository.StaffRepository;
+import kurdistan.journalapp.db.repository.UserRepository;
+import kurdistan.journalapp.service.interfaces.IStaffService;
+import kurdistan.journalapp.model.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
