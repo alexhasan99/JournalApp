@@ -60,6 +60,15 @@ public class ObservationService implements IObservationService {
         observationRepository.deleteById(id);
     }
 
+    @Override
+    public List<Observation> getAllObservations() {
+        List<Observation> list = new ArrayList<>();
+        for (ObservationDb d: observationRepository.findAll()) {
+            list.add(Observation.FromObservationDb(d));
+        }
+        return list;
+    }
+
     public List<Observation> getObservationsByPatientId(Long id){
         List<Observation> list = new ArrayList<>();
         for (ObservationDb d: observationRepository.getObservationDbsByPatientId(id))

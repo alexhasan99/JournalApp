@@ -22,6 +22,11 @@ public class ObservationController {
         return ResponseEntity.ok(e);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Observation>> getObservations() {
+        List<Observation> observations = oService.getAllObservations();
+        return ResponseEntity.ok(observations);
+    }
     @PostMapping
     public ResponseEntity<Observation> createObservation(@RequestBody Observation observation) {
         Observation e = oService.createObservation(observation);

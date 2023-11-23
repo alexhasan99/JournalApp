@@ -10,6 +10,8 @@ public interface IObservationService {
     Observation createObservation(Observation observation);
     void deleteObservation(Long id);
 
+    List<Observation> getAllObservations();
+
     List<Observation> getObservationsByPatientId(Long id);
 
 }
