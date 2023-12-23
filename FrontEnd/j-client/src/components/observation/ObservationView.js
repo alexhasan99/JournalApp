@@ -4,7 +4,8 @@ import axios from 'axios';
 // Adjust import paths based on your actual project structure
 import PatientView from '../patients/PatientView';
 import StaffView from '../staffs/StaffView';
-import './ConditionView.css'; // Import the CSS file for styling
+import './ObservationView.css'; // Import the CSS file for styling
+import Navigation from '../Navigation/Navigation';
 
 
 
@@ -12,7 +13,7 @@ const ObservationView = () => {
   const [observations, setObservations] = useState([]);
   const [selectedPatient, setSelectedPatient] = useState(null);
   const [selectedStaff, setSelectedStaff] = useState(null);
-
+  console.log("hej");
   useEffect(() => {
     loadObservations();
   }, []);
@@ -21,7 +22,9 @@ const ObservationView = () => {
     try {
       const result = await axios.get('http://localhost:8080/api/observations');
       setObservations(result.data);
-    } catch (error) {
+      console.log('Hello');
+      console.log('Observation data:', result.data);
+  } catch (error) {
       console.error('Error fetching observations:', error);
     }
   };
@@ -45,10 +48,13 @@ const ObservationView = () => {
   };
 
   return (
+    <>
+    <Navigation/>
     <section>
       <table>
         <thead>
           <tr>
+          <th>Type of Observation</th>
             <th>Date of observation</th>
             <th>Description of observation</th>
           </tr>
@@ -56,6 +62,7 @@ const ObservationView = () => {
         <tbody>
           {observations.map((observation, index) => (
             <tr key={observation.id}>
+              <td>{observation.type}</td>
               <td>{observation.observationDate}</td>
               <td>{observation.observationText}</td>
               <td>
@@ -76,6 +83,7 @@ const ObservationView = () => {
       {selectedPatient && <PatientView patientDetails={selectedPatient} />}
       {selectedStaff && <StaffView staffDetails={selectedStaff} />}
     </section>
+    </>
   );
 };
 

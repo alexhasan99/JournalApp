@@ -25,6 +25,7 @@ public class UserController {
         User loggedInUser = userService.login(username, password);
 
         if (loggedInUser != null) {
+            System.out.println("Login Success");
             return ResponseEntity.ok(loggedInUser);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

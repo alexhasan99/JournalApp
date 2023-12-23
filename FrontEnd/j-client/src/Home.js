@@ -1,12 +1,14 @@
-// src/Home.js
+// Home.js
 import React from 'react';
+import Navigation from './components/Navigation/Navigation';
 
-const Home = () => {
+function Home (){
   return (
-    <div>
+    <>
+      <Navigation/>
       <h2>Welcome to the home page</h2>
-    </div>
+    </>
   );
-}; 
+};
 
 export default Home;
