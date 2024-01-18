@@ -1,0 +1,14 @@
+.staff-details {
+  border: 1px solid #af0000;
+  padding: 16px;
+  margin: 16px 0;
+  background-color: #d01c1c;
+}
+
+.staff-details h2 {
+  color: #333;
+}
+
+.staff-details p {
+  margin: 8px 0;
+}
