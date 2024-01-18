@@ -41,7 +41,7 @@ public class Encounter {
         Patient patient = Patient.FromPatientDb(encounterDb.getPatient());
         Staff staff = Staff.FromStaffDb(encounterDb.getStaff());
 
-        Encounter encounter = new Encounter(
+        return new Encounter(
                 encounterDb.getId(),
                 encounterDb.getEncounterDate(),
                 patient,
@@ -49,8 +49,6 @@ public class Encounter {
                 encounterDb.getLocation(),
                 encounterDb.getNote()
         );
-
-        return encounter;
     }
 
     public  List<String> getChangedAttributes(Encounter other) {
