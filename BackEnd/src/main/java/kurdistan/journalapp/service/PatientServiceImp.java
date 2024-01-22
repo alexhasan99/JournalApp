@@ -32,8 +32,7 @@ public class PatientServiceImp implements IPatientService {
         patient.getUser().setRole("patient");
         UserDb u = userRepository.save(UserDb.FromUser(patient.getUser()));
         patient.getUser().setId(u.getId());
-        Patient p = Patient.FromPatientDb(patientRepository.save(PatientDb.FromPatient(patient)));
-        return p;
+        return Patient.FromPatientDb(patientRepository.save(PatientDb.FromPatient(patient)));
     }
 
     @Override
