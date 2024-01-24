@@ -1,0 +1,54 @@
+services:
+  zookeeper:
+    image: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: kafka
+    ports:
+      - "9092:9092"
+
+    depends_on:
+      - zookeeper
+
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+  mysql:
+    image: mysql
+    container_name: mysqlcontainer
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1212test1313
+      MYSQL_DATABASE: journal
+
+  app:
+    image: backendimage
+    container_name: backend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - kafka
+      - mysql
+
+    environment:
+      MYSQL_HOST: mysqlcontainer
+      MYSQL_PORT: 3306
+      MYSQL_DB_NAME: journal
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1212test1313
+      CONTAINER_NAME: backend
+
+
+  testapp:
+    image: testimage
+    container_name: testappcontainer
+    ports:
+      - "8090:8080"
+    depends_on:
+      - kafka

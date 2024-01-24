@@ -1,7 +1,10 @@
 package kurdistan.journalapp.controller;
 
+import kurdistan.journalapp.SystemOutToLogger;
 import kurdistan.journalapp.model.User;
 import kurdistan.journalapp.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,8 @@ public class UserController {
 
    @Autowired
     private UserService userService;
+
+    private static final Logger logger = LogManager.getLogger(UserController.class);
 
    @PostMapping("/create")
     public ResponseEntity<User> createUser(@RequestBody User myUserDetails) {
@@ -34,13 +39,26 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id) {
+       System.out.println("HEEEEJ!!!!!!!!!!!!!!!");
+        logger.error("Hello hej");
+        System.out.println("Container Name: " + System.getenv("CONTAINER_NAME"));
         User user = userService.getUserById(id);
-
         if (user != null) {
             return ResponseEntity.ok(user);
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @GetMapping("/log")
+    public String logTest() {
+        logger.info("Testloggar på INFO-nivå");
+        logger.warn("Testloggar på WARN-nivå");
+        logger.error("Testloggar på ERROR-nivå");
+        logger.debug("Testloggar på DEBUG-nivå");
+        System.out.println("HELO");
+        System.out.println("Debug: System Property containerName = " + System.getProperty("CONTAINER_NAME"));
+        return "Loggar genererade, kontrollera din konsol eller loggfil!";
     }
 
     @GetMapping("username/{username}")

@@ -4,6 +4,8 @@ package kurdistan.journalapp.controller;
 import kurdistan.journalapp.model.Condition;
 import kurdistan.journalapp.model.Staff;
 import kurdistan.journalapp.service.interfaces.IConditionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import java.util.List;
 public class ConditionController {
     @Autowired
     private IConditionService cService;
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Condition> getCondition(@PathVariable Long id) {
