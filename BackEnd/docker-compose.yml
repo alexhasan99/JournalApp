@@ -45,10 +45,19 @@ services:
       CONTAINER_NAME: backend
 
 
-  testapp:
-    image: testimage
-    container_name: testappcontainer
+  massagesapp:
+    image: massagemicroimage
+    container_name: massages
     ports:
       - "8090:8080"
     depends_on:
       - kafka
+      - mysql
+
+    environment:
+      MYSQL_HOST: mysqlcontainer
+      MYSQL_PORT: 3306
+      MYSQL_DB_NAME: journal
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 1212test1313
+      CONTAINER_NAME: massages

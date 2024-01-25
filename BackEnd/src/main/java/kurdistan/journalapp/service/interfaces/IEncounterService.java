@@ -13,5 +13,4 @@ public interface IEncounterService {
 
     List<Encounter> getEncounterByPatientId(Long id);
 
-
 }
