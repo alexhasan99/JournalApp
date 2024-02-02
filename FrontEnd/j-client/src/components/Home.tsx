@@ -36,21 +36,21 @@ const LoginForm = () => {
         try {
             const user = { email, password, userType };
             const loginSuccess = await ApiService.loginUser(user);
+            console.log('Login Sucess: ', loginSuccess)
 
             if (loginSuccess) {
                 let data;
                 if (userType === 'PATIENT') {
                     data = await ApiService.getPatientByEmail(email);
-                } else if (userType === 'DOCTOR') {
-                    data = await ApiServices.getDoctorByEmail(email);
-                } else if (userType === 'OTHERS') {
-                    data = await ApiServices.getOthersByEmail(email);
+                } else if (userType === 'STAFF') {
+                    data = await ApiServices.getStaffByEmail(email);
                 }
-
-                if (data && data.userId) {
-                    setUserId(data.userId);
-                    setUser({ userId: data.userId, email, userType });
-                    sessionStorage.setItem('currentUserLoggedIn', JSON.stringify({ userId: data.userId, email, userType }));
+                console.log('data', data)
+                console.log('type', userType)
+                if (data && data.id) {
+                    setUserId(data.id);
+                    setUser({ userId: data.id, email, userType });
+                    sessionStorage.setItem('currentUserLoggedIn', JSON.stringify({ userId: data.id, email, userType }));
 
                     // Redirect based on user type
                     if (userType === 'DOCTOR') {

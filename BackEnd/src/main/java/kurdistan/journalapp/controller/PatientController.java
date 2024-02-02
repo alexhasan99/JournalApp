@@ -31,6 +31,18 @@ public class PatientController {
         return ResponseEntity.status(HttpStatus.CREATED).body(p);
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Patient> getPatientByEmail(@PathVariable String email) {
+        Patient patient = patientService.getPatientByEmail(email);
+        return ResponseEntity.ok(patient);
+    }
+
+    @GetMapping("/{id}/userId")
+    public ResponseEntity<Patient> getUserIdByPatientId(@PathVariable Long id) {
+        Patient patient = patientService.getPatientByEmail(email);
+        return ResponseEntity.ok(patient);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Patient> updatePatient(@PathVariable Long id, @RequestBody Patient updatedPatient) {
         Patient updated = patientService.updatePatient(id, updatedPatient);

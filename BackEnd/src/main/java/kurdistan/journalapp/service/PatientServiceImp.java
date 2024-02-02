@@ -5,6 +5,7 @@ import kurdistan.journalapp.db.model.UserDb;
 import kurdistan.journalapp.db.repository.PatientRepository;
 import kurdistan.journalapp.db.repository.UserRepository;
 import kurdistan.journalapp.model.Patient;
+import kurdistan.journalapp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kurdistan.journalapp.service.interfaces.IPatientService;
@@ -24,6 +25,7 @@ public class PatientServiceImp implements IPatientService {
     public Patient getPatientById(Long id) {
         return Patient.FromPatientDb(patientRepository.findPatientDbById(id));
     }
+
 
     @Override
     public Patient createPatient(Patient patient) {
@@ -57,6 +59,12 @@ public class PatientServiceImp implements IPatientService {
             return Patient.FromPatientDb(updatedPatientDb);
         }
         return null;
+    }
+
+    @Override
+    public Patient getPatientByEmail(String email) {
+        UserDb user = userRepository.findUserDbByUsername(email);
+        return Patient.FromPatientDb(patientRepository.findPatientDbByUserDb(user));
     }
 
     @Override

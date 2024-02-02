@@ -8,5 +8,9 @@ public interface IPatientService {
 
     Patient updatePatient(Long id, Patient patient);
 
+    Patient getPatientByEmail(String email);
+
+    Patient get
+
     Boolean deletePatient(Long id);
 }

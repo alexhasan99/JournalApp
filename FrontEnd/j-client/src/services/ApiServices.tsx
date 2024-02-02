@@ -14,7 +14,7 @@ const ApiService = {
             });
     },
     getPatientById: (id: number) => {
-        return fetch(`${API_BASE_URL}/patient/${id}`)
+        return fetch(`${API_BASE_URL}/patients/${id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -23,7 +23,7 @@ const ApiService = {
             });
     },
     getPatientByEmail: (email: string) => {
-        return fetch(`${API_BASE_URL}/patient/email/${email}`)
+        return fetch(`${API_BASE_URL}/patients/email/${email}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -32,7 +32,7 @@ const ApiService = {
             });
     },
     getPatientByUserId: (userId: number) => {
-        return fetch(`${API_BASE_URL}/patient/userId/${userId}`)
+        return fetch(`${API_BASE_URL}/patients/userId/${userId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -40,27 +40,36 @@ const ApiService = {
                 return response.json();
             });
     },
-    getDoctorByEmail: (email: string) => {
-        return fetch(`${API_BASE_URL}/doctors/email/${email}`)
+    getAllStaff: () => {
+        return fetch(`${API_BASE_URL}/staffs`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
+                    throw new Error('Nätverksfel vid hämtning av staff data');
                 }
                 return response.json();
             });
     },
-    getOthersByEmail: (email: string) => {
-        return fetch(`${API_BASE_URL}/others/email/${email}`)
+    getStaffById: (id: number) => {
+        return fetch(`${API_BASE_URL}/staffs/${id}`)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
+                    throw new Error('Nätverksfel vid hämtning av staff');
                 }
                 return response.json();
             });
     },
 
+    getStaffByEmail: (email: string) => {
+        return fetch(`${API_BASE_URL}/staffs/${email}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Nätverksfel vid hämtning av staff');
+                }
+                return response.json();
+            });
+    },
     getUserIdByPatientId: (id: number) => {
-        return fetch(`${API_BASE_URL}/patient/${id}/userId`)
+        return fetch(`${API_BASE_URL}/patients/${id}/userId`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -104,17 +113,8 @@ const ApiService = {
                 return response.json();
             });
     },
-    getDoctorInfo: () => {
-        return fetch(`${API_BASE_URL}/doctors`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
-    },
-    getDoctorById: (id: number) => {
-        return fetch(`${API_BASE_URL}/doctors/${id}`)
+    getStaffInfo: () => {
+        return fetch(`${API_BASE_URL}/staffs`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -123,25 +123,7 @@ const ApiService = {
             });
     },
     getEncounterByPatientId: (patientId: number) => {
-        return fetch(`${API_BASE_URL}/encounter/patient/${patientId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
-    },
-    getOthers: () => {
-        return fetch(`${API_BASE_URL}/others`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
-    },
-    getOthersById: (id: number) => {
-        return fetch(`${API_BASE_URL}/others/${id}`)
+        return fetch(`${API_BASE_URL}/encounter/patients/${patientId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');

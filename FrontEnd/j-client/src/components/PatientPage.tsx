@@ -8,7 +8,7 @@ import ApiServices from "../services/ApiServices";
 const PatientPage = () => {
     const {patientId} = useParams<{ patientId?: string }>();
     const [patientDetails, setPatientDetails] = useState<Patient>(); // Update 'any' with the actual patient details interface/type
-    const [doctorList, setDoctorList] = useState<Doctor[]>([]);
+    const [doctorList, setStaffInfo] = useState<Doctor[]>([]);
     const [otherList, setOtherList] = useState<Others[]>([]);
     const [previousEncounters, setPreviousEncounters] = useState<EncounterForDisplay[]>([]);
     const [expandedEncounterId, setExpandedEncounterId] = useState<number | null>(null);
@@ -45,8 +45,7 @@ const PatientPage = () => {
     }, [userId]);
 
     useEffect(() => {
-        ApiServices.getDoctorInfo().then((data) => setDoctorList(data));
-        ApiServices.getOthers().then((data) => setOtherList(data));
+        ApiServices.getStaffInfo().then((data) => setStaffInfo(data));
     },[]);
 
     const sendMessage = (staffId: number, staffType: 'doctor' | 'other') => {
