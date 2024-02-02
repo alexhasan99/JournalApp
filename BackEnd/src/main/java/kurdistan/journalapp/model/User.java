@@ -13,16 +13,14 @@ public class User {
 
     private Long id;
 
-    private String username;
-
-
+    private String email;
     private String password;
 
     private String role;
 
     public User(UserDb u) {
         this.id = u.getId();
-        this.username = u.getUsername();
+        this.email = u.getUsername();
         this.password = u.getPassword();
         this.role = u.getRole();
     }

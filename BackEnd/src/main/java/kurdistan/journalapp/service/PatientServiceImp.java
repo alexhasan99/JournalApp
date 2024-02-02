@@ -28,7 +28,7 @@ public class PatientServiceImp implements IPatientService {
     @Override
     public Patient createPatient(Patient patient) {
         String generatedUsername = generateUniqueUsername(patient.getFirstName(), patient.getLastName());
-        patient.getUser().setUsername(generatedUsername);
+        patient.getUser().setEmail(generatedUsername);
         patient.getUser().setRole("patient");
         UserDb u = userRepository.save(UserDb.FromUser(patient.getUser()));
         patient.getUser().setId(u.getId());

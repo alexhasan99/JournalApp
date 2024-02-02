@@ -1,6 +1,5 @@
 package kurdistan.journalapp.controller;
 
-import kurdistan.journalapp.SystemOutToLogger;
 import kurdistan.journalapp.model.User;
 import kurdistan.journalapp.service.UserService;
 import org.apache.logging.log4j.LogManager;
@@ -26,8 +25,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestParam String username, @RequestParam String password) {
-        User loggedInUser = userService.login(username, password);
+    public ResponseEntity<User> login(@RequestBody User myUserDetails) {
+        User loggedInUser = userService.login(myUserDetails.getEmail(), myUserDetails.getPassword());
 
         if (loggedInUser != null) {
             System.out.println("Login Success");
