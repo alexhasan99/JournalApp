@@ -48,7 +48,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, handleReply }) => {
 
     return (
         <div>
-            <p>Content: {message.content}</p>
+            <p>Content: {message.messageText}</p>
             <p>Sender: {senderName}</p>
             {/* Display other message details */}
             {!messageSent && (
@@ -71,14 +71,16 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, handleReply }) => {
 const DoctorPage = () => {
     const [patients, setPatients] = useState<Patient[]>([]);
     const [messages, setMessages] = useState<Msg[]>([]);
-    const [newMessageContent, setNewMessageContent] = useState('');
+    const [getAllSentMessages, setAllSentMessages] = useState<Msg[]>([]);
+    const [getAllReceviedMessages, setAllReceviedMessages] = useState<Msg[]>([]);
     const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
 
     const fetchMessages = async (userId: number) => {
         try {
-            const fetchedMessages: Msg[] = await ApiService.getAllMessagesForUser(userId);
-            const filteredMessages = fetchedMessages.filter((message: Msg) => message.sender !== userId);
-            setMessages(filteredMessages); // Set the fetched messages in state
+            console.log(userId)
+            ApiServices.getAllSentMessagesForUser(userId).then(setAllSentMessages);
+            ApiServices.getAllReceivedMessagesForUser(userId).then(setAllReceviedMessages);
+            console.log(getAllSentMessages)
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
@@ -100,7 +102,6 @@ const DoctorPage = () => {
             const { userId } = JSON.parse(userIdFromSession);
             fetchMessages(userId); // Fetch messages for the logged-in doctor (using userId)
         }
-
         fetchPatients();
     }, []);
 
@@ -114,11 +115,11 @@ const DoctorPage = () => {
                     senderId = userId;
                 }
                 // Here, you can set the selectedPatient based on the receiverId
-                const selectedPatient = patients.find((patient) => patient.userId === receiverId);
+                const selectedPatient = patients.find((patient) => patient.id === receiverId);
                 setSelectedPatient(selectedPatient || null);
 
                 const messageData = {
-                    content: replyContent,
+                    messageText: replyContent,
                     timeStamp: new Date().toISOString(),
                     sender: senderId,
                     receiver: receiverId,
@@ -132,7 +133,7 @@ const DoctorPage = () => {
                     fetchMessages(userId);
                 }
 
-                setNewMessageContent('');
+                //setNewMessageContent('');
             } else {
                 console.error('Missing reply content or selected patient');
             }
@@ -145,21 +146,20 @@ const DoctorPage = () => {
         <div>
             <h2>Messages</h2>
             <ul>
-                {messages.map((message) => (
+                {getAllReceviedMessages.map((message) => (
                     <li key ={message.timeStamp}>
                         <MessageItem message={message} handleReply={handleReply} />
                     </li>
                 ))}
             </ul>
 
-
             {/* Other components or sections */}
             <h3>List of Patients</h3>
             <ul>
                 {patients.map((patient) => (
-                    <li key={patient.userId}>
-                        {patient.name} - {patient.userId}
-                        <Link to={`/doctor/selectedPatient/${patient.userId}`}>
+                    <li key={patient.id}>
+                        {patient.firstname} - {patient.id}
+                        <Link to={`/staff/selectedPatient/${patient.id}`}>
                             <button>Select Patient</button>
                         </Link>
                     </li>

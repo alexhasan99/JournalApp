@@ -60,7 +60,7 @@ const ApiService = {
     },
 
     getStaffByEmail: (email: string) => {
-        return fetch(`${API_BASE_URL}/staffs/${email}`)
+        return fetch(`${API_BASE_URL}/staffs/email/${email}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av staff');
@@ -78,7 +78,7 @@ const ApiService = {
             });
     },
     getConversationBySenderAndReceiver: (sender: number, receiver: number) => {
-        return fetch(`${API_BASE_URL}/msgs/conversation/${sender}/${receiver}`)
+        return fetch(`${API_BASE_URL}/massages/conversation/${sender}/${receiver}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -87,7 +87,7 @@ const ApiService = {
             });
     },
     getMessages: () => {
-        return fetch(`${API_BASE_URL}/msgs`)
+        return fetch(`${API_BASE_URL}/massages`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av meddelanden');
@@ -95,8 +95,17 @@ const ApiService = {
                 return response.json();
             });
     },
-    getAllMessagesForUser: (userId: number) => {
-        return fetch(`${API_BASE_URL}/msgs/user/${userId}`)
+    getAllSentMessagesForUser: (userId: number) => {
+        return fetch(`${API_BASE_URL}/massages/sent/${userId}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Nätverksfel vid hämtning av meddelanden');
+                }
+                return response.json();
+            });
+    },
+    getAllReceivedMessagesForUser: (userId: number) => {
+        return fetch(`${API_BASE_URL}/massages/rec/${userId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av meddelanden');
@@ -141,7 +150,7 @@ const ApiService = {
             });
     },
     getAllEncountersByUserId: (userId: number) => {
-        return fetch(`${API_BASE_URL}/encounter/patient/${userId}`)
+        return fetch(`${API_BASE_URL}/encounters/patient/${userId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -271,7 +280,7 @@ const ApiService = {
     },
     createMessage: async (message: Msg) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/msg`, {
+            const response = await fetch(`${API_BASE_URL}/massages`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

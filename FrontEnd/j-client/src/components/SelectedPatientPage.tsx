@@ -29,20 +29,20 @@ const SelectedPatientPage = () => {
 
     useEffect(() => {
         if (patientId) {
-
-            // Fetch patient details based on the patientId using an API call or local storage
-            ApiServices.getUserIdByPatientId(parseInt(patientId)).then((data) => setUserId(data));
-            ApiServices.getPatientById(parseInt(patientId)).then((data) => setPatientDetails(data));
-
+            ApiServices.getPatientById(parseInt(patientId)).then((data) => {
+                setPatientDetails(data);
+                const userId = data?.user.id ?? 0; // Use nullish coalescing operator to handle undefined
+                setUserId(String(userId)); // Update userId here once patientDetails are fetched
+            });
         }
     }, [patientId]);
 
     useEffect(() => {
-        if(userId) {
-            ApiServices.getAllEncountersByUserId(parseInt(userId)).then((data) => setPreviousEncounters(data));
+        if(patientId) {
+            ApiServices.getAllEncountersByUserId(parseInt(patientId)).then((data) => setPreviousEncounters(data));
 
         }
-    }, [userId]);
+    }, [patientDetails]);
 
     useEffect(() => {
         // Fetch messages using the getConversationBySenderAndReceiver method
@@ -117,15 +117,15 @@ const SelectedPatientPage = () => {
             if (encounterCreation) {
                 // If encounter creation was successful, add the observation
                 const observationData = {
-                    msg: note,
-                    timeStamp: new Date().toISOString(),
-                    conditions: conditions,
+                    observationText: note,
+                    observationDate: new Date().toISOString(),
+                    type: 'conditions',
                 };
                 console.log("Encounter is: " + encounterCreation);
 
 
                 // Create the observation associated with the encounter
-                const observationCreation = await ApiServices.addObservationToEncounter(encounterCreation, observationData);
+            const observationCreation = await ApiServices.addObservationToEncounter(encounterCreation, observationData);
 
                 if (observationCreation) {
                     // Observation created successfully and associated with the encounter
@@ -151,7 +151,7 @@ const SelectedPatientPage = () => {
             {patientDetails && (
                 <div>
                     <h2>Patient Details</h2>
-                    <p>Name: {patientDetails.name}</p>
+                    <p>Name: {patientDetails.firstname}</p>
                     <p>Email: {patientDetails.email}</p>
                     {/* Display other patient details */}
                     <textarea
@@ -159,7 +159,7 @@ const SelectedPatientPage = () => {
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                     ></textarea>
-                    <button onClick={handleAddNote}>Add Note</button>
+                    {/*<button onClick={}>Add Note</button>*/}
                     <button onClick={handleAddCondition}>Add Conditions</button>
                     {conditions.map((condition, index) => (
                         <div key={index}>
@@ -180,14 +180,14 @@ const SelectedPatientPage = () => {
                             {messages.map((message, index) => (
                                 <li key={index}>
                                     {/* Display message details */}
-                                    <p>Content: {message.content}</p>
+                                    <p>Content: {message.messageText}</p>
                                     {/* Display other message details */}
                                     <ul>
                                         {messagesReply
                                             .filter((reply) => reply.sender === message.receiver && reply.receiver === message.sender)
                                             .map((messagereply, replyIndex) => (
                                                 <li key={replyIndex}>
-                                                    <p>My Replys: {messagereply.content}</p>
+                                                    <p>My Replys: {messagereply.messageText}</p>
                                                 </li>
                                             ))}
                                     </ul>
@@ -200,21 +200,22 @@ const SelectedPatientPage = () => {
                         <div>
                             {previousEncounters.map((encounter, index) => (
                                 <div key={index}>
-                                    <h4 onClick={() => toggleExpand(encounter.id)}>Encounter ⬇ {formattedDate(encounter.timeStamp)}</h4>
+                                    <h4 onClick={() => toggleExpand(encounter.id)}>Encounter ⬇ {formattedDate(encounter.encounterDate)}</h4>
                                     {expandedEncounterId === encounter.id && (
                                         <div>
                                             {/* Render encounter details */}
-                                            <p>Time: {formattedTime(encounter.timeStamp)}</p>
+                                            <p>Time: {formattedTime(encounter.encounterDate)}</p>
                                             <p>EncounterId: {encounter.id}</p>
+                                            <p>Encounter Location: {encounter.location}</p>
                                             <div>
                                                 <h4>Observations</h4>
                                                 <ul>
                                                     {encounter.observations.map((observation, obsIndex) => (
                                                         <li key={obsIndex}>
                                                             {/* Render observation details */}
-                                                            <p>Message: {observation.msg}</p>
-
-                                                            <p>Conditions: {observation.conditions.join(', ')}</p>
+                                                            <p>Type: {observation.type}</p>
+                                                            <p>Message: {observation.observationText}</p>
+                                                            <p>Observation Date: {formattedDate(observation.observationDate)}</p>
                                                             {/* Other observation details */}
                                                         </li>
                                                     ))}

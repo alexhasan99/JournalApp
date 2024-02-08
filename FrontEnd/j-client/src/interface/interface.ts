@@ -1,7 +1,6 @@
 export interface User{
-
-    name: string;
-    userType: string;
+    id: number;
+    role: string;
     email: string;
     password: string;
 }
@@ -27,38 +26,44 @@ export interface Encounter {
 
 export interface EncounterForDisplay {
     id: number;
-    userId: number;
-    timeStamp: string;
+    patientId: number;
+    staffId: number;
+    encounterDate: string;
+    location: string;
     observations: Observation[];
 }
 
 export interface Observation {
-    msg: string;
-    timeStamp: string;
-    conditions: string[];
+    observationText: string;
+    observationDate: string;
+    type: string;
 
 }
 
 export interface Patient {
-    userId: number;
-    name: string;
+    id: number;
+    firstname: string;
+    lastname: string;
+    gender: string;
     email: string;
+    user: User
 }
 
 export interface PatientForPage {
     id: number;
-    userId: number;
-    name: string;
-    email: string;
 }
 
 export interface PatientDetails {
-    name: string;
+    id: number;
+    firstname: string;
+    lastname: string;
+    gender: string;
     email: string;
+    user: User
 }
 
 export interface Msg {
-    content: string;
+    messageText: string;
     timeStamp: string;
     sender: number;
     receiver: number;
@@ -74,4 +79,14 @@ export interface Others {
     userId: number;
     name: string;
     email: string;
+}
+
+export interface StaffMember {
+    id: number;
+    firstname: string;
+    lastname: string;
+    email: string;
+    gender: string;
+    staffType: string;
+    user: User;
 }

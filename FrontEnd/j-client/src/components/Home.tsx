@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import ApiService from '../services/ApiServices';
 import { useNavigate } from 'react-router-dom';
-import {Patient, PatientForPage, User} from "../interface/interface";
+import {Patient, PatientForPage, StaffMember, User} from "../interface/interface";
 import {UserContext} from "./UserSession";
 import ApiServices from "../services/ApiServices";
 
@@ -11,23 +11,39 @@ const LoginForm = () => {
     const [userType, setUserType] = useState('');
     const [userId, setUserId] = useState<number| undefined>();
     const [patientDetails, setPatientDetails] = useState<PatientForPage>();
+    const [staffDetails, setStaffDetails] = useState<StaffMember>();
     const navigate = useNavigate();
     const { setUser } = useContext(UserContext);
 
     useEffect(() => {
         if (patientDetails) {
             // Redirect after getting patient details
-            const parsedUserId = Number(patientDetails.userId); // Convert to a number
+            const parsedUserId = Number(patientDetails.id); // Convert to a number
             if (!isNaN(parsedUserId)) {
                 setUserId(parsedUserId); // Update userId state
                 console.log("PatientDetails: " + parsedUserId);
                 navigate(`/patient/${parsedUserId}`);
             } else {
-                console.error("Invalid userId received from patientDetails:", patientDetails.userId);
+                console.error("Invalid userId received from patientDetails:", patientDetails.id);
                 // Handle the scenario where userId is not a valid number
             }
         }
     }, [navigate, patientDetails]);
+
+    useEffect(() => {
+        if (staffDetails) {
+            // Redirect after getting patient details
+            const parsedUserId = Number(staffDetails.id); // Convert to a number
+            if (!isNaN(parsedUserId)) {
+                setUserId(parsedUserId); // Update userId state
+                console.log("PatientDetails: " + parsedUserId);
+                navigate(`/staff/${parsedUserId}`);
+            } else {
+                console.error("Invalid userId received from patientDetails:", staffDetails.id);
+                // Handle the scenario where userId is not a valid number
+            }
+        }
+    }, [navigate, staffDetails]);
 
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,28 +52,23 @@ const LoginForm = () => {
         try {
             const user = { email, password, userType };
             const loginSuccess = await ApiService.loginUser(user);
-            console.log('Login Sucess: ', loginSuccess)
+            console.log('Login Sucess: ', user)
 
             if (loginSuccess) {
                 let data;
                 if (userType === 'PATIENT') {
                     data = await ApiService.getPatientByEmail(email);
+                    setPatientDetails(data);
                 } else if (userType === 'STAFF') {
                     data = await ApiServices.getStaffByEmail(email);
+                    setStaffDetails(data);
+                    console.log(data)
                 }
-                console.log('data', data)
-                console.log('type', userType)
                 if (data && data.id) {
                     setUserId(data.id);
                     setUser({ userId: data.id, email, userType });
-                    sessionStorage.setItem('currentUserLoggedIn', JSON.stringify({ userId: data.id, email, userType }));
+                    sessionStorage.setItem('currentUserLoggedIn', JSON.stringify({ id: data.id, email, userType, userId:data.user.id }));
 
-                    // Redirect based on user type
-                    if (userType === 'DOCTOR') {
-                        navigate('/doctor');
-                    } else if (userType === 'OTHERS') {
-                        navigate('/staff');
-                    }
 
                     alert('Login successful!\nYou wrote: ' + email + ', ' + userType);
                 } else {
@@ -106,8 +117,7 @@ const LoginForm = () => {
                     <select value={userType} onChange={(e) => setUserType(e.target.value)}>
                         <option value="">Select role</option>
                         <option value="PATIENT">Patient</option>
-                        <option value="DOCTOR">Doctor</option>
-                        <option value="OTHERS">Staff</option>
+                        <option value="STAFF">Staff</option>
                     </select>
                 </label>
                 <br />

@@ -11,19 +11,19 @@ public class Person {
 
     private Long id;
 
-    private String firstName;
+    private String firstname;
 
-    private String lastName;
+    private String lastname;
 
     private String email;
 
     private String gender;
 
 
-    public Person(Long id, String firstName, String lastName, String email, String gender) {
+    public Person(Long id, String firstname, String lastname, String email, String gender) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.email = email;
         this.gender = gender;
     }

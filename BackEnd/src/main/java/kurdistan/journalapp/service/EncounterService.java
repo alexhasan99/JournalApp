@@ -1,13 +1,8 @@
 package kurdistan.journalapp.service;
 
-import kurdistan.journalapp.db.model.ConditionDb;
 import kurdistan.journalapp.db.model.EncounterDb;
-import kurdistan.journalapp.db.model.PatientDb;
-import kurdistan.journalapp.db.model.StaffDb;
 import kurdistan.journalapp.db.repository.EncounterRepository;
-import kurdistan.journalapp.model.Condition;
 import kurdistan.journalapp.model.Encounter;
-import kurdistan.journalapp.service.interfaces.IConditionService;
 import kurdistan.journalapp.service.interfaces.IEncounterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,10 +40,9 @@ public class EncounterService implements IEncounterService {
             for (String attribute : changedAttributes) {
                 switch (attribute) {
                     case "encounterDate" -> existingEncounter.setEncounterDate(updatedEncounter.getEncounterDate());
-                    case "patient" -> existingEncounter.setPatient(PatientDb.FromPatient(updatedEncounter.getPatient()));
-                    case "staff" -> existingEncounter.setStaff(StaffDb.FromStaff(updatedEncounter.getStaff()));
+                    case "patient" -> existingEncounter.setPatientId(updatedEncounter.getPatientId());
+                    case "staff" -> existingEncounter.setStaffId((updatedEncounter.getStaffId()));
                     case "location" -> existingEncounter.setLocation(updatedEncounter.getLocation());
-                    case "note" -> existingEncounter.setNote(updatedEncounter.getNote());
                     // Lägg till fler fall för andra attribut
 
                     default -> {

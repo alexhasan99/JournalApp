@@ -13,10 +13,10 @@ const RegisterForm = () => {
 
         // Create a User object based on the form input
         const user: User = {
+            id: 1,
             email: email,
-            name: name,
             password: password,
-            userType: userType,
+            role: userType,
         };
 
         try {

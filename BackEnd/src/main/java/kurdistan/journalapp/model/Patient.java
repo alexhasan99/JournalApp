@@ -28,10 +28,10 @@ public class Patient extends Person{
     public List<String> getChangedAttributes(Patient other) {
         List<String> changedAttributes = new ArrayList<>();
 
-        if (!Objects.equals(this.getFirstName(), other.getFirstName()) && other.getFirstName() != null) {
+        if (!Objects.equals(this.getFirstname(), other.getFirstname()) && other.getFirstname() != null) {
             changedAttributes.add("firstName");
         }
-        if (!Objects.equals(this.getLastName(), other.getLastName()) && other.getLastName() != null) {
+        if (!Objects.equals(this.getLastname(), other.getLastname()) && other.getLastname() != null) {
             changedAttributes.add("lastName");
         }
         if (!Objects.equals(this.getEmail(), other.getEmail()) && other.getEmail() != null) {

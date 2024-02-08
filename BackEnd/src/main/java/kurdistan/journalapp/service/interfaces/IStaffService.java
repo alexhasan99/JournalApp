@@ -18,4 +18,6 @@ public interface IStaffService {
 
     List<Staff> getAllStaff();
 
+    Staff getStaffByEmail(String email);
+
 }

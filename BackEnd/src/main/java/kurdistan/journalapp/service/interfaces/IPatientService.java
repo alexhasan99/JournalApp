@@ -2,6 +2,8 @@ package kurdistan.journalapp.service.interfaces;
 
 import kurdistan.journalapp.model.Patient;
 
+import java.util.List;
+
 public interface IPatientService {
     Patient getPatientById(Long id);
     Patient createPatient(Patient patient);
@@ -10,7 +12,9 @@ public interface IPatientService {
 
     Patient getPatientByEmail(String email);
 
-    Patient get
+    List<Patient> getAllPatients();
+
+    Patient getPatientByUserId(Long id);
 
     Boolean deletePatient(Long id);
 }

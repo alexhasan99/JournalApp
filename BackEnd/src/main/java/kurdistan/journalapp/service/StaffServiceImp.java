@@ -4,6 +4,7 @@ import kurdistan.journalapp.db.model.StaffDb;
 import kurdistan.journalapp.db.model.UserDb;
 import kurdistan.journalapp.db.repository.StaffRepository;
 import kurdistan.journalapp.db.repository.UserRepository;
+import kurdistan.journalapp.model.Patient;
 import kurdistan.journalapp.service.interfaces.IStaffService;
 import kurdistan.journalapp.model.Staff;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,8 @@ public class StaffServiceImp implements IStaffService {
 
             for (String attribute : changedAttributes) {
                 switch (attribute) {
-                    case "firstName" -> existingDoctor.setFirstName(updatedStaff.getFirstName());
-                    case "lastName" -> existingDoctor.setLastName(updatedStaff.getLastName());
+                    case "firstName" -> existingDoctor.setFirstName(updatedStaff.getFirstname());
+                    case "lastName" -> existingDoctor.setLastName(updatedStaff.getLastname());
                     case "email" -> existingDoctor.setEmail(updatedStaff.getEmail());
                     case "staffType" -> existingDoctor.setStaffType(updatedStaff.getStaffType());
                     case "gender" -> existingDoctor.setGender(updatedStaff.getGender());
@@ -77,5 +78,11 @@ public class StaffServiceImp implements IStaffService {
             staff.add(Staff.FromStaffDb(d));
         }
         return staff;
+    }
+
+    @Override
+    public Staff getStaffByEmail(String email) {
+        UserDb user = userRepository.findUserDbByUsername(email);
+        return Staff.FromStaffDb(staffRepository.getStaffDbByUserDb(user));
     }
 }

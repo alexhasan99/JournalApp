@@ -1,7 +1,9 @@
 package kurdistan.journalapp.db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Id;
 import jakarta.persistence.*;
+import kurdistan.journalapp.model.Encounter;
 import kurdistan.journalapp.model.Observation;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,13 +25,6 @@ public class ObservationDb {
     @Column(name = "observation_type")
     private String type;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id", referencedColumnName = "id")
-    private PatientDb patient;
-
-    @ManyToOne
-    @JoinColumn(name = "staff_id", referencedColumnName = "id")
-    private StaffDb staff;
 
     @Column(name = "observation_date")
     private LocalDateTime observationDate;
@@ -37,14 +32,18 @@ public class ObservationDb {
     @Column(name = "observation_text")
     private String observationText;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "encounter")
+    private EncounterDb encounter;
+
     public static ObservationDb FromObservation(Observation observation) {
         ObservationDb observationDb = new ObservationDb();
         observationDb.setId(observation.getId());
         observationDb.setType(observation.getType());
         observationDb.setObservationText(observation.getObservationText());
         observationDb.setObservationDate(observation.getObservationDate());
-        observationDb.setPatient(PatientDb.FromPatient(observation.getPatient()));
-        observationDb.setStaff(StaffDb.FromStaff(observation.getStaff()));
+        observationDb.setEncounter(EncounterDb.FromEncounter(observation.getEncounter()));
         return observationDb;
     }
 }
