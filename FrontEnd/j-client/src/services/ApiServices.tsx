@@ -1,6 +1,7 @@
-import {Encounter, LoginUser, Msg, Observation, User} from "../interface/interface";
+import {Encounter, LoginUser, Msg, Observation, User, ImageCreation} from "../interface/interface";
 
 const API_BASE_URL = 'http://localhost:8080/api'; // Byt ut med din backend URL
+const API_IMAGE_URL = 'http://localhost:8084';
 
 
 const ApiService = {
@@ -176,6 +177,64 @@ const ApiService = {
                 return response.json();
             });
     },
+    getImageById: (imageId: number) => {
+        return fetch(`${API_IMAGE_URL}/images/${imageId}/data`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Nätverksfel vid hämtning av data');
+                }
+                return response.json();
+            });
+    },
+    getAllImages: () => {
+        return fetch(`${API_IMAGE_URL}/images/list`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Nätverksfel vid hämtning av data');
+                }
+                return response.json();
+            });
+    },
+    createImage: async (image: ImageCreation) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/images/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(image),
+            });
+            if (!response.ok) {
+                throw  new Error(`Creating Image failed`);
+            }
+            return true;
+        } catch (error) {
+            console.error('Message Error:', error);
+            throw new Error('Image failed');
+        }
+    },
+    updateImageById: async (imageId: number, updatedDetails: ImageCreation) => {
+        try {
+            // Make a PUT request to update the image details
+            const response = await fetch(`${API_IMAGE_URL}/images/${imageId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedDetails),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update image details');
+            }
+
+            // Return the updated image details
+            return response.json();
+        } catch (error) {
+            console.error('Error updating image details:', error);
+            throw error; // Rethrow the error to handle it in the component
+        }
+    },
     createEncounter: async (encounter: Encounter) => {
         try {
             const response = await fetch(`${API_BASE_URL}/encounter`, {
@@ -240,7 +299,7 @@ const ApiService = {
     },
     registerUser: async (user: User) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/register`, {
+            const response = await fetch(`${API_BASE_URL}/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

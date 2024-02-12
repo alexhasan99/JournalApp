@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import ApiService from '../services/ApiServices';
 import { Patient, Msg } from "../interface/interface";
 import ApiServices from "../services/ApiServices";
-
+import DrawingForm from "./DrawingForm";
 interface MessageItemProps {
     message: Msg;
     handleReply: (receiverId: number, replyContent: string) => void;
+    
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({ message, handleReply }) => {
@@ -165,6 +166,8 @@ const DoctorPage = () => {
                     </li>
                 ))}
             </ul>
+             {/* Här lägger vi till DrawingForm-komponenten */}
+        <DrawingForm />
         </div>
 
     );

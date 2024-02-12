@@ -9,14 +9,7 @@ import {UserProvider} from "./components/UserSession";
 import PrivateRoute from "./components/PrivateRoute";
 import SelectedPatientPage from "./components/SelectedPatientPage";
 
-
-
-
-
-
-
 function App() {
-
     let user = null;
     if (sessionStorage.length > 0) {
         const storedUser = sessionStorage.getItem('currentUserLoggedIn');
