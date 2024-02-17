@@ -91,9 +91,11 @@ export interface StaffMember {
     user: User;
 }
 export interface ImageCreation {
+    id: number;
     name: string;
     description: string;
     imageData: string;
+    patientId: number;
 }
 
 export interface ImageDetails {

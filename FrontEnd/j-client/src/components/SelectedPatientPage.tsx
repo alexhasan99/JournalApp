@@ -3,6 +3,7 @@ import {useNavigate, useParams} from 'react-router-dom';
 import {EncounterForDisplay, Msg, Observation, Patient} from "../interface/interface";
 import ApiServices from "../services/ApiServices";
 import ApiService from "../services/ApiServices";
+import DrawingForm from "./DrawingForm";
 
 
 const SelectedPatientPage = () => {
@@ -33,6 +34,7 @@ const SelectedPatientPage = () => {
                 setPatientDetails(data);
                 const userId = data?.user.id ?? 0; // Use nullish coalescing operator to handle undefined
                 setUserId(String(userId)); // Update userId here once patientDetails are fetched
+                sessionStorage.setItem("patientId", patientId);
             });
         }
     }, [patientId]);
@@ -229,6 +231,9 @@ const SelectedPatientPage = () => {
                     </div>
                 </div>
             )}
+            <ul>
+                <DrawingForm />
+            </ul>
         </div>
     );
 };

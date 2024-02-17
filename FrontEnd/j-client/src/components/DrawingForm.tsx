@@ -95,6 +95,7 @@ const DrawingForm: React.FC = () => {
 
 
     const handleSelectImage = async (imageId: number) => {
+        clearAll()
         setSelectedImageId(imageId);
 
         try {
@@ -120,11 +121,13 @@ const DrawingForm: React.FC = () => {
             if (canvasRef.current) {
                 const canvas = canvasRef.current;
                 const dataUrl = canvas.toDataURL('image/png');
-
+                const patientId = sessionStorage.getItem("patientId");
                 const imageCreationData: ImageCreation = {
+                    id: 0,
                     name: name,
                     description: description,
                     imageData: dataUrl.split(',')[1], // Extract base64 part of the data URL
+                    patientId: patientId !== null ? +patientId : 0, 
                 };
 
                 // Send the drawing data to the server
@@ -216,6 +219,8 @@ export const ImageViewer: React.FC<{ imageId: number }> = ({ imageId }) => {
     }, [imageId]);
     const EditForm: React.FC<{ imageDetails: ImageCreation; onSubmit: (details: ImageCreation, file: File | null) => void;
         onCancel: () => void }> = ({ imageDetails, onSubmit, onCancel }) => {
+        const [id, setId] = useState(imageDetails.id);
+        const [patientId, setPatinetId] = useState(imageDetails.patientId);
         const [name, setName] = useState(imageDetails.name);
         const [description, setDescription] = useState(imageDetails.description);
         const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -225,7 +230,7 @@ export const ImageViewer: React.FC<{ imageId: number }> = ({ imageId }) => {
             // Perform validation if needed
 
             // Call onSubmit with updated details
-            onSubmit({name, description, imageData: imageDetails.imageData}, selectedFile);
+            onSubmit({id ,name, description, imageData: imageDetails.imageData, patientId}, selectedFile);
         };
 
         const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -291,11 +296,11 @@ export const ImageViewer: React.FC<{ imageId: number }> = ({ imageId }) => {
 export const ImageList: React.FC<{ onSelectImage: (imageId: number) => void }> = ({ onSelectImage }) => {
     const [images, setImages] = useState([]);
     const [selectedImageId, setSelectedImageId] = useState<number | null>(null);
-
     useEffect(() => {
+        const patientId = sessionStorage.getItem("patientId");
         const fetchImages = async () => {
             try {
-                const imageData = await ApiService.getAllImages();
+                const imageData = await ApiService.getAllImages(patientId !== null ? +patientId : 0);
                 setImages(imageData);
             } catch (error) {
                 console.error('Error fetching image data:', error);
@@ -304,6 +309,8 @@ export const ImageList: React.FC<{ onSelectImage: (imageId: number) => void }> =
 
         fetchImages();
     }, []);
+
+   
 
     const handleSelectImage = (imageId: number) => {
         onSelectImage(imageId)

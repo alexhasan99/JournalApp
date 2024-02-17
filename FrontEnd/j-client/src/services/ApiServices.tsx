@@ -178,7 +178,7 @@ const ApiService = {
             });
     },
     getImageById: (imageId: number) => {
-        return fetch(`${API_IMAGE_URL}/images/${imageId}/data`)
+        return fetch(`${API_BASE_URL}/images/${imageId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -186,8 +186,8 @@ const ApiService = {
                 return response.json();
             });
     },
-    getAllImages: () => {
-        return fetch(`${API_IMAGE_URL}/images/list`)
+    getAllImages: (patientId: number) => {
+        return fetch(`${API_BASE_URL}/images/patient/${patientId}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Nätverksfel vid hämtning av data');
@@ -197,7 +197,7 @@ const ApiService = {
     },
     createImage: async (image: ImageCreation) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/images/create`, {
+            const response = await fetch(`${API_BASE_URL}/images`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -216,7 +216,7 @@ const ApiService = {
     updateImageById: async (imageId: number, updatedDetails: ImageCreation) => {
         try {
             // Make a PUT request to update the image details
-            const response = await fetch(`${API_IMAGE_URL}/images/${imageId}`, {
+            const response = await fetch(`${API_BASE_URL}/images/${imageId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
