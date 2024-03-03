@@ -13,6 +13,8 @@ import {
 
 const API_BASE_URL = 'http://localhost:8080/api'; // Byt ut med din backend URL
 const API_BASE_URL_QUARKUS = 'http://localhost:8083';
+const toke = sessionStorage.getItem('token');
+
 
 const getHeaders = () => {
     const token = sessionStorage.getItem('token');
@@ -123,48 +125,20 @@ const ApiService = {
         }).then(response => responseHandler(response));
     },
     updateImageById: async (imageId: number, updatedDetails: ImageCreation) => {
-        try {
-            // Make a PUT request to update the image details
-            const response = await fetch(`${API_BASE_URL}/images/${imageId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedDetails),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update image details');
-            }
-
-            // Return the updated image details
-            return response.json();
-        } catch (error) {
-            console.error('Error updating image details:', error);
-            throw error; // Rethrow the error to handle it in the component
-        }
+        return fetch(`${API_BASE_URL}/images/${imageId}`, {
+            method: 'PUT',
+            headers: getHeaders(),
+            body: JSON.stringify(updatedDetails),
+        })
+        .then(response => responseHandler(response));
     },
     createEncounter: async (encounter: Encounter) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/encounter`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(encounter),
-            });
-
-            if (!response.ok) {
-                throw new Error('Encounter failed at apiService');
-            }
-
-
-             // Parse response body as JSON
-            return await response.json(); // Return the created encounter object
-        } catch (error) {
-            console.error('Encounter creation Error at Catch:', error);
-            throw new Error('Encounter creation failed as throw in Catch:'); // Throw error for failed registration
-        }
+        return fetch(`${API_BASE_URL}/encounter`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(encounter),
+        })
+        .then(response => responseHandler(response));
     },
     createObservation: async (patientId: number, observation: Observation) => {
         try {
@@ -172,6 +146,7 @@ const ApiService = {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${toke}`,
                 },
                 body: JSON.stringify(observation),
             });
@@ -187,24 +162,12 @@ const ApiService = {
         }
     },
     addObservationToEncounter: async (encounterId: number, observation: Observation) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/encounter/${encounterId}/observation`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(observation),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to add observation to encounter, response not ok');
-            }
-
-            return response.json(); // Return response JSON data if needed
-        } catch (error) {
-            console.error('Error:', error);
-            throw new Error('Failed to add observation to encounter, were caught');
-        }
+        return fetch(`${API_BASE_URL}/encounter/${encounterId}/observation`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(observation),
+        })
+        .then(response => responseHandler(response));
     },
     registerUser: async (user: User) => {
         try {
@@ -227,56 +190,20 @@ const ApiService = {
         }
     },
     loginUser: async (user: LoginUser) => {
-        try {
-            // Hämta token från session storage
-            const token = sessionStorage.getItem('token');
-    
-            // Kontrollera att token finns innan du fortsätter
-            if (!token) {
-                throw new Error('No token found');
-            }
-
-            console.log(token)
-    
-            const response = await fetch(`${API_BASE_URL}/users/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    // Lägg till token i Authorization-header
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: JSON.stringify(user),
-            });
-    
-            if (!response.ok) {
-                throw new Error('LogIn failed');
-            }
-    
-            return true; // Indicate successful login
-        } catch (error) {
-            console.error('LogIn Error:', error);
-            throw new Error('LogIn failed'); // Throw error for failed login
-        }
+        return fetch(`${API_BASE_URL}/users/login`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(user),
+        })
+        .then(response => responseHandler(response));
     },
     createMessage: async (message: Msg) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/massages`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(message),
-            });
-
-            if (!response.ok) {
-                throw new Error('Creating message failed');
-            }
-
-            return true; // Indicate successful registration
-        } catch (error) {
-            console.error('Message Error:', error);
-            throw new Error('Message failed'); // Throw error for failed registration
-        }
+        return fetch(`${API_BASE_URL}/messages`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(message),
+        })
+        .then(response => responseHandler(response));
     },
     searchPatientsByName: async (name: string): Promise<PatientForSearch[]> => {
         try {
