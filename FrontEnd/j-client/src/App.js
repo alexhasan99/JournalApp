@@ -8,8 +8,10 @@ import Home from "./components/Home";
 import {UserProvider} from "./components/UserSession";
 import PrivateRoute from "./components/PrivateRoute";
 import SelectedPatientPage from "./components/SelectedPatientPage";
+import Login from './Login';
 
 function App() {
+
     let user = null;
     if (sessionStorage.length > 0) {
         const storedUser = sessionStorage.getItem('currentUserLoggedIn');
@@ -17,7 +19,10 @@ function App() {
         console.log("User: " + user?.userId);
     }
 
-    return (
+
+    
+
+   return (
         <BrowserRouter>
             <UserProvider>
                 <div>
@@ -29,8 +34,8 @@ function App() {
                         <li><Link to="/registerForm">Register</Link></li>
                     </ul>
                     <Routes>
-                        <Route path="/" element={<Home/>}/>
-
+                    <Route path="/" element={<Login />} />
+                    <Route path="/home" element={<Home />} />
                         <Route path="/patient/:patientId" element={<PrivateRoute allowedUserTypes={['PATIENT']} ><PatientPage /></PrivateRoute>} />
                         <Route path="/staff/selectedPatient/:patientId" element={<PrivateRoute  allowedUserTypes={['STAFF']} ><SelectedPatientPage /></PrivateRoute>} />
                         <Route path="/staff/:staffId"  element={<PrivateRoute  allowedUserTypes={['STAFF']} ><DoctorPage /></PrivateRoute>}/>

@@ -48,7 +48,13 @@ export interface Patient {
     email: string;
     user: User
 }
+export interface PatientForSearch {
+    firstName: string;
+    lastName: string;
+    gender: string;
+    email: string;
 
+}
 export interface PatientForPage {
     id: number;
 }

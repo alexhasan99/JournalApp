@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ApiService from '../services/ApiServices';
-import { Patient, Msg } from "../interface/interface";
+import {Patient, Msg, PatientForSearch} from "../interface/interface";
 import ApiServices from "../services/ApiServices";
+import PatientSearchForm from './PatientSearchForm';
+
 interface MessageItemProps {
     message: Msg;
     handleReply: (receiverId: number, replyContent: string) => void;
-    
+
 }
 
 const MessageItem: React.FC<MessageItemProps> = ({ message, handleReply }) => {
@@ -74,6 +76,8 @@ const DoctorPage = () => {
     const [getAllSentMessages, setAllSentMessages] = useState<Msg[]>([]);
     const [getAllReceviedMessages, setAllReceviedMessages] = useState<Msg[]>([]);
     const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
+    const [searchedPatients, setSearchedPatients] = useState<PatientForSearch[]>([]); // State för sökta patienter
+
 
     const fetchMessages = async (userId: number) => {
         try {
@@ -85,7 +89,12 @@ const DoctorPage = () => {
             console.error('Error fetching messages:', error);
         }
     };
+    const handleSearchComplete = (searchResults: PatientForSearch[]) => {
+        console.log(searchResults)
 
+        setSearchedPatients(searchResults); // Spara sökresultaten i state
+        //console.log(searchResults)
+    };
     useEffect(() => {
         // Fetch list of patients when the component mounts
         const fetchPatients = async () => {
@@ -147,8 +156,8 @@ const DoctorPage = () => {
             <h2>Messages</h2>
             <ul>
                 {getAllReceviedMessages.map((message) => (
-                    <li key ={message.timeStamp}>
-                        <MessageItem message={message} handleReply={handleReply} />
+                    <li key={message.timeStamp}>
+                        <MessageItem message={message} handleReply={handleReply}/>
                     </li>
                 ))}
             </ul>
@@ -165,7 +174,27 @@ const DoctorPage = () => {
                     </li>
                 ))}
             </ul>
-             {/* Här lägger vi till DrawingForm-komponenten */}
+            <h3>Search For Patients</h3>
+            <PatientSearchForm onSearchComplete={handleSearchComplete} />
+
+            {/* Visa sökresultaten efter patients*/}
+            <div>
+                <h3>Searched Patients</h3>
+                {searchedPatients.length > 0 ? (
+                    <ul>
+                        {searchedPatients.map((patient) => (
+                            <li key={patient.lastName}>
+                                <strong>Name:</strong> {patient.firstName} {patient.lastName} <br/>
+                                <strong>Email:</strong> {patient.email} <br/>
+                                <strong>Gender:</strong> {patient.gender}
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p>No patients found</p> // Visa detta om inga träffar görs vid sökning
+                )}
+            </div>
+
         </div>
 
     );

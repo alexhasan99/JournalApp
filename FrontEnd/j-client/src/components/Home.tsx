@@ -15,6 +15,7 @@ const LoginForm = () => {
     const navigate = useNavigate();
     const { setUser } = useContext(UserContext);
 
+
     useEffect(() => {
         if (patientDetails) {
             // Redirect after getting patient details
@@ -29,6 +30,8 @@ const LoginForm = () => {
             }
         }
     }, [navigate, patientDetails]);
+
+
 
     useEffect(() => {
         if (staffDetails) {
@@ -85,6 +88,8 @@ const LoginForm = () => {
             alert('Error occurred during login');
         }
     };
+
+    
 
     const handleRegister = () => {
         navigate("/registerForm");

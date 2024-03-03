@@ -1,217 +1,126 @@
-import {Encounter, LoginUser, Msg, Observation, User, ImageCreation} from "../interface/interface";
+import {
+    Encounter,
+    LoginUser,
+    Msg,
+    Observation,
+    User,
+    ImageCreation,
+    Patient,
+    PatientForSearch
+} from "../interface/interface";
+
+
 
 const API_BASE_URL = 'http://localhost:8080/api'; // Byt ut med din backend URL
-const API_IMAGE_URL = 'http://localhost:8084';
+const API_BASE_URL_QUARKUS = 'http://localhost:8083';
 
+const getHeaders = () => {
+    const token = sessionStorage.getItem('token');
+    return {
+        'Content-Type': 'application/json',
+        ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+    };
+};
+
+const responseHandler = (response: Response) => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+};
 
 const ApiService = {
     getPatients: () => {
-        return fetch(`${API_BASE_URL}/patients`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/patients`, { headers: getHeaders() })
+        .then(response => responseHandler(response));
     },
     getPatientById: (id: number) => {
-        return fetch(`${API_BASE_URL}/patients/${id}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/patients/${id}`, { headers: getHeaders() })
+        .then(response => responseHandler(response));
     },
     getPatientByEmail: (email: string) => {
-        return fetch(`${API_BASE_URL}/patients/email/${email}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/patients/email/${email}`, { headers: getHeaders() })
+        .then(response => responseHandler(response));
     },
     getPatientByUserId: (userId: number) => {
-        return fetch(`${API_BASE_URL}/patients/userId/${userId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/patients/userId/${userId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getAllStaff: () => {
-        return fetch(`${API_BASE_URL}/staffs`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av staff data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/staffs`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getStaffById: (id: number) => {
-        return fetch(`${API_BASE_URL}/staffs/${id}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av staff');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/staffs/${id}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
 
     getStaffByEmail: (email: string) => {
-        return fetch(`${API_BASE_URL}/staffs/email/${email}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av staff');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/staffs/email/${email}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getUserIdByPatientId: (id: number) => {
-        return fetch(`${API_BASE_URL}/patients/${id}/userId`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/patients/${id}/userId`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getConversationBySenderAndReceiver: (sender: number, receiver: number) => {
-        return fetch(`${API_BASE_URL}/massages/conversation/${sender}/${receiver}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/massages/conversation/${sender}/${receiver}`, { headers: getHeaders() })
+        .then(response => responseHandler(response));
     },
     getMessages: () => {
-        return fetch(`${API_BASE_URL}/massages`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av meddelanden');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/massages`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getAllSentMessagesForUser: (userId: number) => {
-        return fetch(`${API_BASE_URL}/massages/sent/${userId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av meddelanden');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/massages/sent/${userId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getAllReceivedMessagesForUser: (userId: number) => {
-        return fetch(`${API_BASE_URL}/massages/rec/${userId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av meddelanden');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/massages/rec/${userId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getConversationById: (otherUserId: number) => {
-        return fetch(`${API_BASE_URL}/msgs/conversation/${otherUserId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av meddelanden');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/msgs/conversation/${otherUserId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getStaffInfo: () => {
-        return fetch(`${API_BASE_URL}/staffs`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/staffs`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getEncounterByPatientId: (patientId: number) => {
-        return fetch(`${API_BASE_URL}/encounter/patients/${patientId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/encounter/patients/${patientId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getUsers: () => {
-        return fetch(`${API_BASE_URL}/users`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/users`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getAllEncountersByUserId: (userId: number) => {
-        return fetch(`${API_BASE_URL}/encounters/patient/${userId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/encounters/patient/${userId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getAllEncounterIdsByUserId: (userId: number) => {
-        return fetch(`${API_BASE_URL}/encounter/patient/encounterId/${userId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/encounter/patient/encounterId/${userId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getObservationByEncounterId: (encounterId: number) => {
-        return fetch(`${API_BASE_URL}/observations/encounter/${encounterId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/observations/encounter/${encounterId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getImageById: (imageId: number) => {
-        return fetch(`${API_BASE_URL}/images/${imageId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/images/${imageId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     getAllImages: (patientId: number) => {
-        return fetch(`${API_BASE_URL}/images/patient/${patientId}`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nätverksfel vid hämtning av data');
-                }
-                return response.json();
-            });
+        return fetch(`${API_BASE_URL}/images/patient/${patientId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
     },
     createImage: async (image: ImageCreation) => {
-        try {
-            const response = await fetch(`${API_BASE_URL}/images`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(image),
-            });
-            if (!response.ok) {
-                throw  new Error(`Creating Image failed`);
-            }
-            return true;
-        } catch (error) {
-            console.error('Message Error:', error);
-            throw new Error('Image failed');
-        }
+        return fetch(`${API_BASE_URL}/images`, {
+            method: 'POST',
+            headers: getHeaders(),
+            body: JSON.stringify(image),
+        }).then(response => responseHandler(response));
     },
     updateImageById: async (imageId: number, updatedDetails: ImageCreation) => {
         try {
@@ -319,22 +228,34 @@ const ApiService = {
     },
     loginUser: async (user: LoginUser) => {
         try {
+            // Hämta token från session storage
+            const token = sessionStorage.getItem('token');
+    
+            // Kontrollera att token finns innan du fortsätter
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            console.log(token)
+    
             const response = await fetch(`${API_BASE_URL}/users/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    // Lägg till token i Authorization-header
+                    'Authorization': `Bearer ${token}`,
                 },
                 body: JSON.stringify(user),
             });
-
+    
             if (!response.ok) {
                 throw new Error('LogIn failed');
             }
-
-            return true; // Indicate successful registration
+    
+            return true; // Indicate successful login
         } catch (error) {
             console.error('LogIn Error:', error);
-            throw new Error('LogIn failed'); // Throw error for failed registration
+            throw new Error('LogIn failed'); // Throw error for failed login
         }
     },
     createMessage: async (message: Msg) => {
@@ -356,8 +277,49 @@ const ApiService = {
             console.error('Message Error:', error);
             throw new Error('Message failed'); // Throw error for failed registration
         }
+    },
+    searchPatientsByName: async (name: string): Promise<PatientForSearch[]> => {
+        try {
+            const response = await fetch(`${API_BASE_URL_QUARKUS}/patients/search/${name}`);
+            if (!response.ok) {
+                throw new Error('Nätverksfel vid sökning av patienter efter namn');
+            }
+            const data = response.json()
+            console.log(data)
+            return data
+        } catch (error) {
+            console.error('Fel vid sökning av patienter efter namn:', error);
+            throw new Error('Sökning av patienter efter namn misslyckades');
+        }
+    },
+    searchPatientsByGender: async (gender: string): Promise<PatientForSearch[]> => {
+        try {
+            const response = await fetch(`${API_BASE_URL_QUARKUS}/patients/searchByGender/${gender}`);
+            if (!response.ok) {
+                throw new Error('Nätverksfel vid sökning av patienter efter kön');
+            }
+            const data = response.json()
+            console.log(data)
+            return data
+        } catch (error) {
+            console.error('Fel vid sökning av patienter efter kön:', error);
+            throw new Error('Sökning av patienter efter kön misslyckades');
+        }
+    },
+    searchPatientsByCondition: async (condition: string): Promise<PatientForSearch[]> => {
+        try {
+            const response = await fetch(`${API_BASE_URL_QUARKUS}/patients/searchByCondition/${condition}`);
+            if (!response.ok) {
+                throw new Error('Nätverksfel vid sökning av patienter efter tillstånd');
+            }
+            const data =  response.json(); // Använd await för att vänta på att Promise ska lösa sig
+            console.log(data); // Logga datan för att se till att den har hämtats korrekt
+            return data;
+        } catch (error) {
+            console.error('Fel vid sökning av patienter efter tillstånd:', error);
+            throw new Error('Sökning av patienter efter tillstånd misslyckades');
+        }
     }
-    // Lägg till fler funktioner för att skicka data och utföra andra API-anrop
 };
 
 export default ApiService;
