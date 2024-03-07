@@ -34,8 +34,8 @@ public class PatientDb {
     public static PatientDb FromPatient(Patient p){
         PatientDb d= new PatientDb();
         d.setId(p.getId());
-        d.setFirstName(p.getFirstName());
-        d.setLastName(p.getLastName());
+        d.setFirstName(p.getFirstname());
+        d.setLastName(p.getLastname());
         d.setEmail(p.getEmail());
         d.setGender(p.getGender());
         d.setUserDb(UserDb.FromUser(p.getUser()));

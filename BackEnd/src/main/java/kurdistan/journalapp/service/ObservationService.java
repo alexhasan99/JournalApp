@@ -35,8 +35,6 @@ public class ObservationService implements IObservationService {
                 switch (attribute) {
                     case "type" -> existingObservation.setType(updatedObservation.getType());
                     case "observationText" -> existingObservation.setObservationText(updatedObservation.getObservationText());
-                    case "patient" -> existingObservation.setPatient(PatientDb.FromPatient(updatedObservation.getPatient()));
-                    case "staff" -> existingObservation.setStaff(StaffDb.FromStaff(updatedObservation.getStaff()));
                     case "observationDate" -> existingObservation.setObservationDate(updatedObservation.getObservationDate());
                     // Lägg till fler fall för andra attribut
                     default -> {
@@ -71,10 +69,10 @@ public class ObservationService implements IObservationService {
 
     public List<Observation> getObservationsByPatientId(Long id){
         List<Observation> list = new ArrayList<>();
-        for (ObservationDb d: observationRepository.getObservationDbsByPatientId(id))
+        /*for (ObservationDb d: observationRepository.getObservationDbsByPatientId(id))
         {
             list.add(Observation.FromObservationDb(d));
-        }
+        }*/
         return list;
     }
 

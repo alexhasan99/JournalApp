@@ -5,11 +5,13 @@ import kurdistan.journalapp.db.model.UserDb;
 import kurdistan.journalapp.db.repository.PatientRepository;
 import kurdistan.journalapp.db.repository.UserRepository;
 import kurdistan.journalapp.model.Patient;
+import kurdistan.journalapp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import kurdistan.journalapp.service.interfaces.IPatientService;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -25,15 +27,15 @@ public class PatientServiceImp implements IPatientService {
         return Patient.FromPatientDb(patientRepository.findPatientDbById(id));
     }
 
+
     @Override
     public Patient createPatient(Patient patient) {
-        String generatedUsername = generateUniqueUsername(patient.getFirstName(), patient.getLastName());
-        patient.getUser().setUsername(generatedUsername);
+        String generatedUsername = generateUniqueUsername(patient.getFirstname(), patient.getLastname());
+        patient.getUser().setEmail(generatedUsername);
         patient.getUser().setRole("patient");
         UserDb u = userRepository.save(UserDb.FromUser(patient.getUser()));
         patient.getUser().setId(u.getId());
-        Patient p = Patient.FromPatientDb(patientRepository.save(PatientDb.FromPatient(patient)));
-        return p;
+        return Patient.FromPatientDb(patientRepository.save(PatientDb.FromPatient(patient)));
     }
 
     @Override
@@ -45,8 +47,8 @@ public class PatientServiceImp implements IPatientService {
 
             for (String attribute : changedAttributes) {
                 switch (attribute) {
-                    case "firstName" -> existingPatient.setFirstName(updatedPatient.getFirstName());
-                    case "lastName" -> existingPatient.setLastName(updatedPatient.getLastName());
+                    case "firstName" -> existingPatient.setFirstName(updatedPatient.getFirstname());
+                    case "lastName" -> existingPatient.setLastName(updatedPatient.getLastname());
                     case "email" -> existingPatient.setEmail(updatedPatient.getEmail());
                     case "gender" -> existingPatient.setGender(updatedPatient.getGender());
                     default -> {
@@ -58,6 +60,28 @@ public class PatientServiceImp implements IPatientService {
             return Patient.FromPatientDb(updatedPatientDb);
         }
         return null;
+    }
+
+    @Override
+    public Patient getPatientByEmail(String email) {
+        UserDb user = userRepository.findUserDbByUsername(email);
+        return Patient.FromPatientDb(patientRepository.findPatientDbByUserDb(user));
+    }
+
+    @Override
+    public List<Patient> getAllPatients() {
+        List<PatientDb> patientDbs = patientRepository.findAll();
+        List<Patient> patients = new ArrayList<>();
+        for (PatientDb p: patientDbs) {
+            patients.add(Patient.FromPatientDb(p));
+        }
+        return patients;
+    }
+
+    @Override
+    public Patient getPatientByUserId(Long id) {
+        UserDb user = userRepository.findUserDbById(id);
+        return Patient.FromPatientDb(patientRepository.findPatientDbByUserDb(user));
     }
 
     @Override

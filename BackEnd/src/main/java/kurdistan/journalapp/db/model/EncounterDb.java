@@ -5,8 +5,8 @@ import kurdistan.journalapp.model.Encounter;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -19,31 +19,31 @@ public class EncounterDb {
     @Column(name = "encounter_id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id", referencedColumnName = "id")
-    private PatientDb patient;
 
-    @ManyToOne
-    @JoinColumn(name = "staff_id", referencedColumnName = "id")
-    private StaffDb staff;
+    @Column(name = "patient_id")
+    private Long patientId;
+
+    @Column(name = "staff_id")
+    private Long staffId;
 
     @Column(name = "encounter_date")
     private LocalDateTime encounterDate;
 
-    @Column(name = "note")
-    private String note;
 
     @Column(name = "location")
     private String location;
+
+    @OneToMany(mappedBy = "encounter", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ObservationDb> observations;
 
     public static EncounterDb FromEncounter(Encounter encounter) {
         EncounterDb encounterDb = new EncounterDb();
         encounterDb.setId(encounter.getId());
         encounterDb.setEncounterDate(encounter.getEncounterDate());
-        encounterDb.setPatient(PatientDb.FromPatient(encounter.getPatient()));
-        encounterDb.setStaff(StaffDb.FromStaff(encounter.getStaff()));
+        encounterDb.setPatientId(encounter.getPatientId());
+        encounterDb.setStaffId(encounter.getStaffId());
         encounterDb.setLocation(encounter.getLocation());
-        encounterDb.setNote(encounter.getNote());
+        encounterDb.setObservations(encounter.getObservations());
         return encounterDb;
     }
 

@@ -37,8 +37,8 @@ public class StaffDb {
     public static StaffDb FromStaff(Staff p){
         StaffDb d= new StaffDb();
         d.setId(p.getId());
-        d.setFirstName(p.getFirstName());
-        d.setLastName(p.getLastName());
+        d.setFirstName(p.getFirstname());
+        d.setLastName(p.getLastname());
         d.setEmail(p.getEmail());
         d.setGender(p.getGender());
         d.setStaffType(p.getStaffType());

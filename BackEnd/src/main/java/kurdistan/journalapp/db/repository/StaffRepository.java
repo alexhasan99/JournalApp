@@ -1,6 +1,7 @@
 package kurdistan.journalapp.db.repository;
 
 import kurdistan.journalapp.db.model.StaffDb;
+import kurdistan.journalapp.db.model.UserDb;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,8 @@ public interface StaffRepository extends JpaRepository<StaffDb, Long> {
     StaffDb save(StaffDb staffDb);
 
     List<StaffDb> findAll();
+
+    StaffDb getStaffDbByUserDb(UserDb userDb);
 
     StaffDb findDoctorDbById(Long id);
 

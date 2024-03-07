@@ -1,8 +1,11 @@
 package kurdistan.journalapp.service;
 
+import kurdistan.journalapp.controller.UserController;
 import kurdistan.journalapp.db.model.UserDb;
 import kurdistan.journalapp.db.repository.UserRepository;
 import kurdistan.journalapp.model.User;
+import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,7 @@ public class UserService {
         UserDb savedUserDb = userRepository.save(userDb);
         return new  User(savedUserDb);
     }
+
 
     public User login(String username, String password) {
         UserDb userDb = userRepository.findUserDbByUsername(username);

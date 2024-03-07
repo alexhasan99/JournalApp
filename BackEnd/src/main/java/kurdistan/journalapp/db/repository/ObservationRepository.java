@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface ObservationRepository extends JpaRepository<ObservationDb, Long> {
     ObservationDb getObservationDbById(Long id);
-    List<ObservationDb> getObservationDbsByPatientId(Long id);
 }

@@ -30,7 +30,7 @@ public class UserDb {
 
         UserDb d= new UserDb();
         d.setId(u.getId());
-        d.setUsername(u.getUsername());
+        d.setUsername(u.getEmail());
         d.setPassword(u.getPassword());
         d.setRole(u.getRole());
         return d;

@@ -1,5 +1,6 @@
 package kurdistan.journalapp.controller;
 
+import kurdistan.journalapp.model.Patient;
 import kurdistan.journalapp.model.Staff;
 import kurdistan.journalapp.service.interfaces.IStaffService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class StaffController {
     @GetMapping("/{id}")
     public ResponseEntity<Staff> getStaffById(@PathVariable Long id) {
         Staff staff = doctorService.getStaffById(id);
+        return ResponseEntity.ok(staff);
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Staff> getStaffByEmail(@PathVariable String email) {
+        Staff staff = doctorService.getStaffByEmail(email);
         return ResponseEntity.ok(staff);
     }
 
