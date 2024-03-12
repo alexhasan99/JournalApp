@@ -33,7 +33,7 @@ kc.init({
     console.log('auth', auth)
     console.log('Keycloak', kc)
     console.log('Access Token', kc.token)
-    sessionStorage.setItem('token', kc.token)
+    sessionStorage.setItem('token', kc.token) 
     
 
     /* http client will use this header in every request it sends */
