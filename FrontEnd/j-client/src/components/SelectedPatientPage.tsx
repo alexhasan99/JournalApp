@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, CSSProperties } from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {EncounterForDisplay, Msg, Observation, Patient} from "../interface/interface";
 import ApiServices from "../services/ApiServices";
@@ -33,7 +33,8 @@ const SelectedPatientPage = () => {
             ApiServices.getPatientById(parseInt(patientId)).then((data) => {
                 setPatientDetails(data);
                 const userId = data?.user.id ?? 0; // Use nullish coalescing operator to handle undefined
-                setUserId(String(userId)); // Update userId here once patientDetails are fetched
+                setUserId(String(userId)); 
+                console.log(userId)// Update userId here once patientDetails are fetched
                 sessionStorage.setItem("patientId", patientId);
             });
         }
@@ -59,14 +60,15 @@ const SelectedPatientPage = () => {
 
                 // Fetch messages based on sender and receiver userIds
                 const conversationMessagesFromSender = await ApiServices.getConversationBySenderAndReceiver(
-                    parseInt(userId || '0'),// Patient's userId
+                    parseInt(userId),// Patient's userId
                     doctorId// Current user's userId
                 );
+                console.log(conversationMessagesFromSender)
                 setMessages(conversationMessagesFromSender || []); // Set fetched messages in state
 
                 const conversationMessagesReply = await ApiServices.getConversationBySenderAndReceiver(
                     doctorId,
-                    parseInt(userId || '0')
+                    parseInt(userId)
                 );
                 setMessagesReply(conversationMessagesReply || []);
             } catch (error) {
@@ -147,92 +149,148 @@ const SelectedPatientPage = () => {
         }
     };
 
+    const styles: { [key: string]: CSSProperties } = {
+        container: {
+            padding: '20px',
+            maxWidth: '800px',
+            margin: '20px auto',
+            fontFamily: 'Arial, sans-serif',
+        },
+        section: {
+            marginBottom: '20px',
+        },
+        encounterSection: {
+            cursor: 'pointer',
+            marginTop: '10px',
+            padding: '10px',
+            background: '#f0f0f0',
+            borderRadius: '5px',
+        },
+        messagesSection: {
+            background: '#e9ecef',
+            padding: '10px',
+            borderRadius: '5px',
+        },
+        messageItem: {
+            padding: '5px 10px',
+            borderRadius: '5px',
+            background: '#f8f9fa',
+            margin: '5px 0',
+        },
+        textarea: {
+            width: '100%',
+            padding: '10px',
+            margin: '10px 0',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            boxSizing: 'border-box',
+        },
+        button: {
+            background: '#007bff',
+            color: 'white',
+            padding: '10px 15px',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            margin: '5px 0',
+        },
+        input: {
+            padding: '10px',
+            margin: '10px 0',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: 'calc(100% - 22px)',
+        },
+        heading: {
+            color: '#007bff',
+        },
+    };
+
 
     return (
-        <div>
+        <div style={styles.container}>
             {patientDetails && (
-                <div>
-                    <h2>Patient Details</h2>
+                <div style={styles.section}>
+                    <h2 style={styles.heading}>Patient Details</h2>
                     <p>Name: {patientDetails.firstname}</p>
                     <p>Email: {patientDetails.email}</p>
-                    {/* Display other patient details */}
-                    <textarea
-                        placeholder="Add note/message"
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                    ></textarea>
-                    {/*<button onClick={}>Add Note</button>*/}
-                    <button onClick={handleAddCondition}>Add Conditions</button>
-                    {conditions.map((condition, index) => (
-                        <div key={index}>
-                            <input
-                                type="text"
-                                value={condition}
-                                onChange={(e) => handleConditionChange(index, e.target.value)}
-                                placeholder={`Condition ${index + 1}`}
-                            />
-
-                        </div>
-                    ))}
-                    <div>
-                        <h3>Messages</h3>
-                        <h4>From Patients</h4>
-                        {/* Display messages */}
-                        <ul>
-                            {messages.map((message, index) => (
-                                <li key={index}>
-                                    {/* Display message details */}
-                                    <p>Content: {message.messageText}</p>
-                                    {/* Display other message details */}
-                                    <ul>
-                                        {messagesReply
-                                            .filter((reply) => reply.sender === message.receiver && reply.receiver === message.sender)
-                                            .map((messagereply, replyIndex) => (
-                                                <li key={replyIndex}>
-                                                    <p>My Replys: {messagereply.messageText}</p>
-                                                </li>
-                                            ))}
-                                    </ul>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Previous Encounters</h3>
-                        <div>
-                            {previousEncounters.map((encounter, index) => (
-                                <div key={index}>
-                                    <h4 onClick={() => toggleExpand(encounter.id)}>Encounter ⬇ {formattedDate(encounter.encounterDate)}</h4>
-                                    {expandedEncounterId === encounter.id && (
-                                        <div>
-                                            {/* Render encounter details */}
-                                            <p>Time: {formattedTime(encounter.encounterDate)}</p>
-                                            <p>EncounterId: {encounter.id}</p>
-                                            <p>Encounter Location: {encounter.location}</p>
-                                            <div>
-                                                <h4>Observations</h4>
-                                                <ul>
-                                                    {encounter.observations.map((observation, obsIndex) => (
-                                                        <li key={obsIndex}>
-                                                            {/* Render observation details */}
-                                                            <p>Type: {observation.type}</p>
-                                                            <p>Message: {observation.observationText}</p>
-                                                            <p>Observation Date: {formattedDate(observation.observationDate)}</p>
-                                                            {/* Other observation details */}
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    {/* Antag att du har fler patientdetaljer att visa här */}
                 </div>
             )}
+    
+            <textarea
+                style={styles.textarea}
+                placeholder="Add note/message"
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+            ></textarea>
+            <button style={styles.button} onClick={handleAddCondition}>Add Conditions</button>
+            {conditions.map((condition, index) => (
+                <div key={index}>
+                    <input
+                        style={styles.input}
+                        type="text"
+                        value={condition}
+                        onChange={(e) => handleConditionChange(index, e.target.value)}
+                        placeholder={`Condition ${index + 1}`}
+                    />
+                </div>
+            ))}
+    
+            <div style={styles.section}>
+                <h3 style={styles.heading}>Messages</h3>
+                <div style={styles.messagesSection}>
+                    <h4 style={{ ...styles.heading, fontSize: '18px' }}>From Patients</h4>
+                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                        {messages.map((message, index) => (
+                            <li key={index} style={styles.messageItem}>
+                                <p>Content: {message.messageText}</p>
+                                {/* Kanske vill du visa mer information här */}
+                                <ul style={{ listStyleType: 'none', padding: '0' }}>
+                                    {messagesReply
+                                        .filter((reply) => reply.sender === message.receiver && reply.receiver === message.sender)
+                                        .map((messagereply, replyIndex) => (
+                                            <li key={replyIndex} style={{ ...styles.messageItem, background: '#d1ecf1' }}>
+                                                <p>My Replies: {messagereply.messageText}</p>
+                                            </li>
+                                        ))}
+                                </ul>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+    
+            <div style={styles.section}>
+                <h3 style={styles.heading}>Previous Encounters</h3>
+                {previousEncounters.map((encounter, index) => (
+                    <div key={index} style={styles.encounterSection} onClick={() => toggleExpand(encounter.id)}>
+                        <h4>Encounter ⬇ {formattedDate(encounter.encounterDate)}</h4>
+                        {expandedEncounterId === encounter.id && (
+                            <div>
+                                <p>Time: {formattedTime(encounter.encounterDate)}</p>
+                                <p>EncounterId: {encounter.id}</p>
+                                <p>Encounter Location: {encounter.location}</p>
+                                <div>
+                                    <h4>Observations</h4>
+                                    <ul style={{ listStyleType: 'none', padding: 0 }}>
+                                        {encounter.observations.map((observation, obsIndex) => (
+                                            <li key={obsIndex} style={styles.messageItem}>
+                                                <p>Type: {observation.type}</p>
+                                                <p>Message: {observation.observationText}</p>
+                                                <p>Observation Date: {formattedDate(observation.observationDate)}</p>
+                                                {/* Ytterligare observationdetaljer */}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                ))}
+            </div>
             <ul>
-                <DrawingForm />
+            <DrawingForm/>
             </ul>
         </div>
     );

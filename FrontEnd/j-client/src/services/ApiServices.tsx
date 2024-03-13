@@ -11,8 +11,16 @@ import {
 
 
 
-const API_BASE_URL = 'http://localhost:8080/api'; // Byt ut med din backend URL
+const API_BASE_URL_auth = 'http://localhost:8080/api';
+const API_BASE_URL = 'http://localhost:8081/api'; 
+const API_BASE_URL_image = 'http://localhost:8082/api';
 const API_BASE_URL_QUARKUS = 'http://localhost:8083';
+const API_BASE_URL_message = 'http://localhost:8084/api';
+
+
+
+
+
 const toke = sessionStorage.getItem('token');
 
 
@@ -32,100 +40,99 @@ const responseHandler = (response: Response) => {
 };
 
 const ApiService = {
-    getPatients: () => {
+    getPatients: async () => {
         return fetch(`${API_BASE_URL}/patients`, { headers: getHeaders() })
-        .then(response => responseHandler(response));
+            .then(response => responseHandler(response));
     },
-    getPatientById: (id: number) => {
+    getPatientById: async (id: number) => {
         return fetch(`${API_BASE_URL}/patients/${id}`, { headers: getHeaders() })
-        .then(response => responseHandler(response));
+            .then(response => responseHandler(response));
     },
-    getPatientByEmail: (email: string) => {
+    getPatientByEmail: async (email: string) => {
         return fetch(`${API_BASE_URL}/patients/email/${email}`, { headers: getHeaders() })
-        .then(response => responseHandler(response));
+            .then(response => responseHandler(response));
     },
-    getPatientByUserId: (userId: number) => {
+    getPatientByUserId: async (userId: number) => {
         return fetch(`${API_BASE_URL}/patients/userId/${userId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getAllStaff: () => {
+    getAllStaff: async () => {
         return fetch(`${API_BASE_URL}/staffs`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getStaffById: (id: number) => {
+    getStaffById: async (id: number) => {
         return fetch(`${API_BASE_URL}/staffs/${id}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-
-    getStaffByEmail: (email: string) => {
+    getStaffByEmail: async (email: string) => {
         return fetch(`${API_BASE_URL}/staffs/email/${email}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getUserIdByPatientId: (id: number) => {
+    getUserIdByPatientId: async (id: number) => {
         return fetch(`${API_BASE_URL}/patients/${id}/userId`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getConversationBySenderAndReceiver: (sender: number, receiver: number) => {
-        return fetch(`${API_BASE_URL}/massages/conversation/${sender}/${receiver}`, { headers: getHeaders() })
-        .then(response => responseHandler(response));
-    },
-    getMessages: () => {
-        return fetch(`${API_BASE_URL}/massages`, { headers: getHeaders() })
+    getConversationBySenderAndReceiver: async (sender: number, receiver: number) => {
+        return fetch(`${API_BASE_URL_message}/messages/conversation/${sender}/${receiver}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getAllSentMessagesForUser: (userId: number) => {
-        return fetch(`${API_BASE_URL}/massages/sent/${userId}`, { headers: getHeaders() })
+    getMessages: async () => {
+        return fetch(`${API_BASE_URL_message}/messages`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getAllReceivedMessagesForUser: (userId: number) => {
-        return fetch(`${API_BASE_URL}/massages/rec/${userId}`, { headers: getHeaders() })
+    getAllSentMessagesForUser: async (userId: number) => {
+        return fetch(`${API_BASE_URL_message}/messages/sent/${userId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getConversationById: (otherUserId: number) => {
-        return fetch(`${API_BASE_URL}/msgs/conversation/${otherUserId}`, { headers: getHeaders() })
+    getAllReceivedMessagesForUser: async (userId: number) => {
+        return fetch(`${API_BASE_URL_message}/messages/rec/${userId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getStaffInfo: () => {
+    getConversationById: async (otherUserId: number) => {
+        return fetch(`${API_BASE_URL_message}/messages/conversation/${otherUserId}`, { headers: getHeaders() })
+            .then(response => responseHandler(response));
+    },
+    getStaffInfo: async () => {
         return fetch(`${API_BASE_URL}/staffs`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getEncounterByPatientId: (patientId: number) => {
+    getEncounterByPatientId: async (patientId: number) => {
         return fetch(`${API_BASE_URL}/encounter/patients/${patientId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getUsers: () => {
-        return fetch(`${API_BASE_URL}/users`, { headers: getHeaders() })
+    getUsers: async () => {
+        return fetch(`${API_BASE_URL_auth}/users`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getAllEncountersByUserId: (userId: number) => {
+    getAllEncountersByUserId: async (userId: number) => {
         return fetch(`${API_BASE_URL}/encounters/patient/${userId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getAllEncounterIdsByUserId: (userId: number) => {
+    getAllEncounterIdsByUserId: async (userId: number) => {
         return fetch(`${API_BASE_URL}/encounter/patient/encounterId/${userId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getObservationByEncounterId: (encounterId: number) => {
+    getObservationByEncounterId: async (encounterId: number) => {
         return fetch(`${API_BASE_URL}/observations/encounter/${encounterId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getImageById: (imageId: number) => {
-        return fetch(`${API_BASE_URL}/images/${imageId}`, { headers: getHeaders() })
+    getImageById: async (imageId: number) => {
+        return fetch(`${API_BASE_URL_image}/images/${imageId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
-    getAllImages: (patientId: number) => {
-        return fetch(`${API_BASE_URL}/images/patient/${patientId}`, { headers: getHeaders() })
+    getAllImages: async (patientId: number) => {
+        return fetch(`${API_BASE_URL_image}/images/patient/${patientId}`, { headers: getHeaders() })
             .then(response => responseHandler(response));
     },
     createImage: async (image: ImageCreation) => {
-        return fetch(`${API_BASE_URL}/images`, {
+        return fetch(`${API_BASE_URL_image}/images`, {
             method: 'POST',
             headers: getHeaders(),
             body: JSON.stringify(image),
         }).then(response => responseHandler(response));
     },
     updateImageById: async (imageId: number, updatedDetails: ImageCreation) => {
-        return fetch(`${API_BASE_URL}/images/${imageId}`, {
+        return fetch(`${API_BASE_URL_image}/images/${imageId}`, {
             method: 'PUT',
             headers: getHeaders(),
             body: JSON.stringify(updatedDetails),
@@ -171,7 +178,7 @@ const ApiService = {
     },
     registerUser: async (user: User) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/create`, {
+            const response = await fetch(`${API_BASE_URL_auth}/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -190,7 +197,7 @@ const ApiService = {
         }
     },
     loginUser: async (user: LoginUser) => {
-        return fetch(`${API_BASE_URL}/users/login`, {
+        return fetch(`${API_BASE_URL_auth}/users/login`, {
             method: 'POST',
             headers: getHeaders(),
             body: JSON.stringify(user),
@@ -198,7 +205,7 @@ const ApiService = {
         .then(response => responseHandler(response));
     },
     createMessage: async (message: Msg) => {
-        return fetch(`${API_BASE_URL}/messages`, {
+        return fetch(`${API_BASE_URL_message}/messages`, {
             method: 'POST',
             headers: getHeaders(),
             body: JSON.stringify(message),

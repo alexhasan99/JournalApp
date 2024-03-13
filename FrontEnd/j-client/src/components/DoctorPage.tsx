@@ -4,6 +4,7 @@ import ApiService from '../services/ApiServices';
 import {Patient, Msg, PatientForSearch} from "../interface/interface";
 import ApiServices from "../services/ApiServices";
 import PatientSearchForm from './PatientSearchForm';
+import { styles } from './styles';
 
 interface MessageItemProps {
     message: Msg;
@@ -31,6 +32,7 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, handleReply }) => {
     useEffect(() => {
         const fetchSenderName = async () => {
             try {
+                console.log(message.sender)
                 const senderData = await ApiServices.getPatientByUserId(message.sender);
                 if (senderData) {
                     setSenderName(senderData.name || 'Unknown');
@@ -49,10 +51,9 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, handleReply }) => {
 
 
     return (
-        <div>
-            <p>Content: {message.messageText}</p>
-            <p>Sender: {senderName}</p>
-            {/* Display other message details */}
+        <div style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+            <p><strong>Content:</strong> {message.messageText}</p>
+            <p><strong>Sender:</strong> {senderName}</p>
             {!messageSent && (
                 <div>
                     <h4>Reply</h4>
@@ -61,11 +62,11 @@ const MessageItem: React.FC<MessageItemProps> = ({ message, handleReply }) => {
                         value={newReplyContent}
                         onChange={(e) => setNewReplyContent(e.target.value)}
                         placeholder="Type your reply..."
+                        style={styles.input}
                     />
-                    <button onClick={handleSendReply}>Send Reply</button>
+                    <button onClick={handleSendReply} style={styles.button}>Send Reply</button>
                 </div>
             )}
-
         </div>
     );
 };
@@ -152,38 +153,39 @@ const DoctorPage = () => {
     };
 
     return (
-        <div>
+        <div style={styles.container}>
             <h2>Messages</h2>
-            <ul>
+            <ul style={styles.messageList}>
                 {getAllReceviedMessages.map((message) => (
-                    <li key={message.timeStamp}>
+                    <li key={message.timeStamp} style={styles.messageItem}>
                         <MessageItem message={message} handleReply={handleReply}/>
                     </li>
                 ))}
             </ul>
 
-            {/* Other components or sections */}
             <h3>List of Patients</h3>
-            <ul>
+            <ul style={styles.messageList}>
                 {patients.map((patient) => (
-                    <li key={patient.id}>
+                    <li key={patient.id} style={styles.messageItem}>
                         {patient.firstname} - {patient.id}
-                        <Link to={`/staff/selectedPatient/${patient.id}`}>
-                            <button>Select Patient</button>
+                        <Link to={`/staff/selectedPatient/${patient.id}`} style={styles.linkButton}>
+                            Select Patient
                         </Link>
                     </li>
                 ))}
             </ul>
-            <h3>Search For Patients</h3>
-            <PatientSearchForm onSearchComplete={handleSearchComplete} />
+            
+            <div style={styles.searchSection}>
+                <h3>Search For Patients</h3>
+                <PatientSearchForm onSearchComplete={handleSearchComplete} />
+            </div>
 
-            {/* Visa sökresultaten efter patients*/}
-            <div>
+            <div style={styles.searchSection}>
                 <h3>Searched Patients</h3>
                 {searchedPatients.length > 0 ? (
-                    <ul>
+                    <ul style={styles.messageList}>
                         {searchedPatients.map((patient) => (
-                            <li key={patient.lastName}>
+                            <li key={patient.lastName} style={styles.messageItem}>
                                 <strong>Name:</strong> {patient.firstName} {patient.lastName} <br/>
                                 <strong>Email:</strong> {patient.email} <br/>
                                 <strong>Gender:</strong> {patient.gender}
@@ -191,10 +193,9 @@ const DoctorPage = () => {
                         ))}
                     </ul>
                 ) : (
-                    <p>No patients found</p> // Visa detta om inga träffar görs vid sökning
+                    <p>No patients found</p>
                 )}
             </div>
-
         </div>
 
     );
