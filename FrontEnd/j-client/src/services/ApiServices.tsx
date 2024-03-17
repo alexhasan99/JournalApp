@@ -10,15 +10,11 @@ import {
 } from "../interface/interface";
 
 
-
 const API_BASE_URL_auth = 'http://localhost:8080/api';
-const API_BASE_URL = 'http://localhost:8081/api'; 
-const API_BASE_URL_image = 'http://localhost:8082/api';
-const API_BASE_URL_QUARKUS = 'http://localhost:8083';
-const API_BASE_URL_message = 'http://localhost:8084/api';
-
-
-
+const API_BASE_URL = process.env.REACT_APP_API_URL;
+const API_BASE_URL_image = process.env.REACT_APP_API_URL_IMAGE;
+const API_BASE_URL_QUARKUS = process.env.REACT_APP_API_URL_QUARKUS;
+const API_BASE_URL_message = process.env.REACT_APP_API_URL_MESSAGE;
 
 
 const toke = sessionStorage.getItem('token');
